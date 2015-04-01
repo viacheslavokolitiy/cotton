@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.satorysoft.cotton.ui.view.ApplicationScanView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.github.lzyzsd.circleprogress.ArcProgress
+        android:layout_width="@dimen/dimen_arc_progress_width"
+        android:id="@+id/arc_scan_progress"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_height="@dimen/dimen_arc_progress_height" />
+    <org.satorysoft.cotton.ui.view.RobotoTextView
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/dimen_scanning_apps_text_size"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/text_app_scanning_placeholder"
+        android:layout_below="@+id/arc_scan_progress"
+        android:id="@+id/text_progress_placeholder"
+        android:layout_height="wrap_content" />
+</org.satorysoft.cotton.ui.view.ApplicationScanView>
