@@ -1,5 +1,10 @@
 package org.satorysoft.cotton.di.mortar;
 
+import android.content.Context;
+
+import com.github.lzyzsd.circleprogress.ArcProgress;
+
+import org.satorysoft.cotton.core.scanner.ApplicationScanner;
 import org.satorysoft.cotton.ui.view.ApplicationScanView;
 
 import javax.inject.Inject;
@@ -17,6 +22,10 @@ public class ApplicationScan {
         @Inject
         public ApplicationScanPresenter(){
 
+        }
+
+        public void launchApplicationScan(Context context, ArcProgress progress) {
+            new ApplicationScanner(context, progress).execute();
         }
     }
 }

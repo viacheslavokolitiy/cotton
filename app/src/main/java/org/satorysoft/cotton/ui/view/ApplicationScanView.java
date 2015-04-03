@@ -37,6 +37,7 @@ public class ApplicationScanView extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         ButterKnife.inject(this);
+        applicationScanPresenter.launchApplicationScan(getContext(), progress);
     }
 
     @Override
