@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import org.satorysoft.cotton.di.component.Dagger_RootComponent;
 import org.satorysoft.cotton.di.component.RootComponent;
 import org.satorysoft.cotton.di.module.RootModule;
+import org.satorysoft.cotton.ui.activity.ApplicationListActivity;
 import org.satorysoft.cotton.ui.activity.ApplicationScanActivity;
 import org.satorysoft.cotton.util.BooleanPreference;
 
@@ -24,6 +25,8 @@ public class MainActivity extends ActionBarActivity {
         if(isFirstRun()){
             startActivity(new Intent(MainActivity.this, ApplicationScanActivity.class));
             finish();
+        } else {
+            startActivity(new Intent(MainActivity.this, ApplicationListActivity.class));
         }
     }
 

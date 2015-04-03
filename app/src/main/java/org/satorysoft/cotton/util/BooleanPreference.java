@@ -25,7 +25,7 @@ public class BooleanPreference {
 
     public void set(String key){
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(key, true);
+        editor.putBoolean(key, false);
         editor.commit();
     }
 }

@@ -45,6 +45,7 @@ dependencies {
     compile 'com.squareup.flow:flow:0.9-SNAPSHOT'
     compile 'com.squareup.mortar:mortar:0.17-SNAPSHOT'
     compile 'com.squareup.mortar:dagger2support:0.17-SNAPSHOT'
+    compile 'com.github.provigen:ProviGen-lib:2.0.+'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug){

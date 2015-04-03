@@ -1,5 +1,6 @@
 package org.satorysoft.cotton.core.scanner;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -8,15 +9,21 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import org.satorysoft.cotton.core.event.CompletedScanEvent;
 import org.satorysoft.cotton.core.model.InstalledApplication;
 import org.satorysoft.cotton.core.model.ScannedApplication;
+import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.di.component.CoreComponent;
 import org.satorysoft.cotton.di.component.Dagger_CoreComponent;
+import org.satorysoft.cotton.di.component.Dagger_RootComponent;
+import org.satorysoft.cotton.di.component.RootComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
+import org.satorysoft.cotton.di.module.RootModule;
+import org.satorysoft.cotton.util.BooleanPreference;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -30,16 +37,19 @@ import de.greenrobot.event.EventBus;
  * Created by viacheslavokolitiy on 02.04.2015.
  */
 public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApplication>> {
+    private static final CharSequence ARRAY_DIVIDER = "__,__";
     private final CoreComponent mCoreComponent;
     private final PackageManager mPackageManager;
     private final ArcProgress mProgress;
     private final Context mContext;
+    private final RootComponent rootComponent;
 
     @Inject
     public ApplicationScanner(Context context, ArcProgress progress){
         this.mContext = context;
         this.mProgress = progress;
         this.mCoreComponent = Dagger_CoreComponent.builder().coreModule(new CoreModule(mContext)).build();
+        this.rootComponent = Dagger_RootComponent.builder().rootModule(new RootModule(mContext)).build();
         this.mPackageManager = mCoreComponent.getPackageManager();
     }
 
@@ -128,8 +138,11 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
     @Override
     protected void onPostExecute(List<ScannedApplication> scannedApplications) {
         super.onPostExecute(scannedApplications);
+        saveScanResultToDatabase(scannedApplications);
         mProgress.setProgress(100);
-        EventBus.getDefault().post(new CompletedScanEvent(scannedApplications));
+        EventBus.getDefault().post(new CompletedScanEvent());
+        BooleanPreference preference = rootComponent.getBooleanPreference();
+        preference.set("firstrun");
     }
 
     private boolean isSystemApplication(ApplicationInfo applicationInfo){
@@ -148,7 +161,34 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
     private byte[] convertDrawable(Drawable drawable){
         Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
+    }
+
+    private void saveScanResultToDatabase(List<ScannedApplication> scannedApplications){
+        for(ScannedApplication scannedApplication : scannedApplications){
+            ContentValues values = new ContentValues();
+            values.put(ScannedApplicationContract.APPLICATION_NAME, scannedApplication
+                    .getInstalledApplication()
+                    .getApplicationName());
+            values.put(ScannedApplicationContract.PACKAGE_NAME, scannedApplication
+                    .getInstalledApplication()
+                    .getPackageName());
+            values.put(ScannedApplicationContract.APPLICATION_ICON, scannedApplication
+                    .getInstalledApplication()
+                    .getApplicationIconBytes());
+            values.put(ScannedApplicationContract.APPLICATION_RISK_RATE, scannedApplication
+                    .getInstalledApplication()
+                    .getApplicationRiskRate());
+            String[] permissions = scannedApplication.getInstalledApplication().getApplicationPermissions();
+            if (permissions == null){
+                values.put(ScannedApplicationContract.APPLICATION_PERMISSIONS, TextUtils.join(ARRAY_DIVIDER, new String[]{}));
+            } else {
+                values.put(ScannedApplicationContract.APPLICATION_PERMISSIONS, TextUtils.join(ARRAY_DIVIDER, permissions));
+            }
+            values.put(ScannedApplicationContract.SCAN_DATE, scannedApplication.getScanDate());
+
+            mContext.getContentResolver().insert(ScannedApplicationContract.CONTENT_URI, values);
+        }
     }
 }
