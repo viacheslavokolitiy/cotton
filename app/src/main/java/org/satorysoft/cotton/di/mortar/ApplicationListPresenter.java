@@ -16,6 +16,8 @@ import org.satorysoft.cotton.ui.animator.SlideInFromLeftItemAnimator;
 import org.satorysoft.cotton.ui.view.ApplicationListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -59,6 +61,15 @@ public class ApplicationListPresenter extends ViewPresenter<ApplicationListView>
         cursor.close();
 
         ApplicationListAdapter adapter = mCoreComponent.getAdapter();
+
+        Collections.sort(scannedApplicationList, new Comparator<ScannedApplication>() {
+            @Override
+            public int compare(ScannedApplication first, ScannedApplication second) {
+                Double riskOne = first.getInstalledApplication().getApplicationRiskRate();
+                Double riskTwo = second.getInstalledApplication().getApplicationRiskRate();
+                return riskOne.compareTo(riskTwo);
+            }
+        });
 
         for(ScannedApplication scannedApplication : scannedApplicationList){
             adapter.addItem(scannedApplication);
