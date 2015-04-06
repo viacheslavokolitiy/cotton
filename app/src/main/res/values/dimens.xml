@@ -5,4 +5,10 @@
     <dimen name="dimen_scanning_apps_text_size">18sp</dimen>
     <dimen name="dimen_arc_progress_width">200dp</dimen>
     <dimen name="dimen_arc_progress_height">200dp</dimen>
+    <dimen name="ldrawer_drawableSize">50dp</dimen>
+    <dimen name="ldrawer_barSize">18dp</dimen>
+    <dimen name="ldrawer_topBottomBarArrowSize">11dp</dimen>
+    <dimen name="ldrawer_thickness">2dp</dimen>
+    <dimen name="ldrawer_gapBetweenBars">3dp</dimen>
+    <dimen name="ldrawer_middleBarArrowSize">16dp</dimen>
 </resources>
