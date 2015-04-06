@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.DrawerListAdapter;

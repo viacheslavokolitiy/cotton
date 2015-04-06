@@ -1,28 +1,15 @@
 package org.satorysoft.cotton.ui.view;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.satorysoft.cotton.R;
-import org.satorysoft.cotton.core.model.InstalledApplication;
-import org.satorysoft.cotton.core.model.ScannedApplication;
-import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
 import org.satorysoft.cotton.di.mortar.ApplicationListPresenter;
 import org.satorysoft.cotton.ui.activity.ApplicationListActivity;
-import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
-import org.satorysoft.cotton.ui.drawable.DrawerToggle;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import javax.inject.Inject;
 
