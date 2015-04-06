@@ -62,15 +62,6 @@ public class ApplicationListPresenter extends ViewPresenter<ApplicationListView>
 
         ApplicationListAdapter adapter = mCoreComponent.getAdapter();
 
-        Collections.sort(scannedApplicationList, new Comparator<ScannedApplication>() {
-            @Override
-            public int compare(ScannedApplication first, ScannedApplication second) {
-                Double riskOne = first.getInstalledApplication().getApplicationRiskRate();
-                Double riskTwo = second.getInstalledApplication().getApplicationRiskRate();
-                return riskOne.compareTo(riskTwo);
-            }
-        });
-
         for(ScannedApplication scannedApplication : scannedApplicationList){
             adapter.addItem(scannedApplication);
         }
