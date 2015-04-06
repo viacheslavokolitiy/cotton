@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity {
             finish();
         } else {
             startActivity(new Intent(MainActivity.this, ApplicationListActivity.class));
+            finish();
         }
     }
 
