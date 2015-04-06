@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import org.satorysoft.cotton.core.model.DrawerItem;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
 import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
 import org.satorysoft.cotton.ui.drawable.DrawerToggle;
+import org.satorysoft.cotton.ui.view.RobotoTextView;
 
 import java.util.ArrayList;
 
@@ -130,6 +132,8 @@ public class ApplicationListActivity extends ActionBarActivity {
                 return false;
             }
         });
+
+        setCustomActionBarTitle();
     }
 
     @Override
@@ -202,5 +206,14 @@ public class ApplicationListActivity extends ActionBarActivity {
         final boolean drawerVisible = containingView.isDrawerVisible(leftDrawer);
         menu.findItem(R.id.action_settings).setVisible(!drawerVisible);
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void setCustomActionBarTitle() {
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View v = inflater.inflate(R.layout.layout_action_bar_title, null);
+        ((RobotoTextView)v.findViewById(R.id.text_custom_action_bar_title)).setText("Applications");
+        getSupportActionBar().setCustomView(v);
     }
 }
