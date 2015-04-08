@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
-import mortar.dagger2support.DaggerService;
 
 /**
  * Created by viacheslavokolitiy on 08.04.2015.

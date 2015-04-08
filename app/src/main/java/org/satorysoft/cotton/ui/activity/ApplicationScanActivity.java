@@ -6,14 +6,12 @@ import android.os.Bundle;
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.CompletedScanEvent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationScanComponent;
-import org.satorysoft.cotton.di.component.mortar.DaggerApplicationScanComponent;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.util.DaggerServiceCompat;
 
 import de.greenrobot.event.EventBus;
 import mortar.MortarScope;
 import mortar.bundler.BundleServiceRunner;
-import mortar.dagger2support.DaggerService;
 
 import static mortar.MortarScope.buildChild;
 import static mortar.MortarScope.findChild;

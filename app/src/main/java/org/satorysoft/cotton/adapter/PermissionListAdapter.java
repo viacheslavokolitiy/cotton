@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.satorysoft.cotton.R;
-import org.satorysoft.cotton.core.model.SelectedApplication;
 import org.satorysoft.cotton.ui.view.RobotoTextView;
 
 import java.util.ArrayList;

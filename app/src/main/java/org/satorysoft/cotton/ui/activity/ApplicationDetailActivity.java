@@ -18,7 +18,6 @@ import org.satorysoft.cotton.util.DaggerServiceCompat;
 import de.greenrobot.event.EventBus;
 import mortar.MortarScope;
 import mortar.bundler.BundleServiceRunner;
-import mortar.dagger2support.DaggerService;
 
 import static mortar.MortarScope.buildChild;
 import static mortar.MortarScope.findChild;

@@ -1,7 +1,5 @@
 package org.satorysoft.cotton.core.model;
 
-import android.graphics.drawable.Drawable;
-
 import java.io.Serializable;
 
 /**
