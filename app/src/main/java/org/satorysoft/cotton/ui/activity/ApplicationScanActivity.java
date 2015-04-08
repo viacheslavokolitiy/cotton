@@ -2,25 +2,25 @@ package org.satorysoft.cotton.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.CompletedScanEvent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationScanComponent;
+import org.satorysoft.cotton.ui.activity.base.MortarActivity;
+import org.satorysoft.cotton.util.DaggerServiceCompat;
 
 import de.greenrobot.event.EventBus;
 import mortar.MortarScope;
 import mortar.bundler.BundleServiceRunner;
-import mortar.dagger2support.DaggerService;
 
 import static mortar.MortarScope.buildChild;
 import static mortar.MortarScope.findChild;
-import static mortar.dagger2support.DaggerService.createComponent;
+import static org.satorysoft.cotton.util.DaggerServiceCompat.createComponent;
 
 /**
  * Created by viacheslavokolitiy on 01.04.2015.
  */
-public class ApplicationScanActivity extends ActionBarActivity {
+public class ApplicationScanActivity extends MortarActivity {
     @Override
     public Object getSystemService(String name) {
         MortarScope activityScope = findChild(getApplicationContext(), getScopeName());
@@ -28,7 +28,7 @@ public class ApplicationScanActivity extends ActionBarActivity {
         if (activityScope == null) {
             activityScope = buildChild(getApplicationContext()) //
                     .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
-                    .withService(DaggerService.SERVICE_NAME, createComponent(ApplicationScanComponent.class))
+                    .withService(DaggerServiceCompat.SERVICE_NAME, createComponent(ApplicationScanComponent.class))
                     .build(getScopeName());
         }
 
@@ -62,8 +62,14 @@ public class ApplicationScanActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-    private String getScopeName() {
+    @Override
+    public String getScopeName() {
         return getClass().getName();
+    }
+
+    @Override
+    public void setCustomActionBarTitle(String title) {
+        //do nothing now
     }
 
     public void onEvent(CompletedScanEvent event){

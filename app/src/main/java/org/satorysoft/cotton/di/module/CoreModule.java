@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 
 import org.satorysoft.cotton.adapter.ApplicationListAdapter;
+import org.satorysoft.cotton.adapter.PermissionListAdapter;
 import org.satorysoft.cotton.core.model.PermissionList;
 
 import dagger.Module;
@@ -33,5 +34,10 @@ public class CoreModule {
     @Provides
     public ApplicationListAdapter provideAdapter(){
         return new ApplicationListAdapter(context);
+    }
+
+    @Provides
+    public PermissionListAdapter providePermissionAdapter(){
+        return new PermissionListAdapter(context);
     }
 }

@@ -1,6 +1,9 @@
 package org.satorysoft.cotton.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -13,8 +16,15 @@ import android.widget.LinearLayout;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.model.ScannedApplication;
+import org.satorysoft.cotton.core.model.SelectedApplication;
+import org.satorysoft.cotton.core.scanner.ApplicationScanner;
+import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
+import org.satorysoft.cotton.ui.activity.ApplicationDetailActivity;
 import org.satorysoft.cotton.ui.view.RobotoTextView;
+import org.satorysoft.cotton.util.Constants;
+import org.satorysoft.cotton.util.IDrawableStateManager;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +36,8 @@ import butterknife.InjectView;
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
  */
-public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.AppListViewHolder>{
+public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.AppListViewHolder>
+        implements IDrawableStateManager {
     private List<ScannedApplication> scannedApplications = new ArrayList<>();
     private Context context;
 
@@ -80,7 +91,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         notifyItemRemoved(0);
     }
 
-    static class AppListViewHolder extends RecyclerView.ViewHolder {
+    class AppListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @InjectView(R.id.application_icon)
         protected ImageView applicationLogo;
         @InjectView(R.id.text_application_name)
@@ -91,11 +102,48 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         public AppListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Drawable drawable = applicationLogo.getDrawable();
+            String title = applicationTitle.getText().toString();
+            String[] permissions;
+
+            Cursor cursor = context.getContentResolver().query(ScannedApplicationContract.CONTENT_URI,
+                    null, ScannedApplicationContract.APPLICATION_NAME + "=?",
+                    new String[]{title}, null);
+            if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()){
+                permissions = cursor.getString(cursor.getColumnIndex(ScannedApplicationContract
+                        .APPLICATION_PERMISSIONS))
+                        .split(ApplicationScanner.ARRAY_DIVIDER.toString());
+            } else {
+                permissions = new String[]{};
+            }
+
+            cursor.close();
+
+            SelectedApplication selectedApplication = new SelectedApplication();
+            selectedApplication.setIcon(convertToBytes(drawable));
+            selectedApplication.setTitle(title);
+            selectedApplication.setPermissions(permissions);
+
+            Intent intent = new Intent(context, ApplicationDetailActivity.class);
+            intent.putExtra(Constants.SCANNED_APPLICATION, selectedApplication);
+            context.startActivity(intent);
         }
     }
 
+    @Override public byte[] convertToBytes(Drawable drawable) {
+        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
     @SuppressWarnings("deprecation")
-    private Drawable restoreDrawable(byte[] bytes){
+    @Override public Drawable restoreDrawable(byte[] bytes){
         return new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
     }
 }

@@ -18,8 +18,8 @@ import org.satorysoft.cotton.core.model.InstalledApplication;
 import org.satorysoft.cotton.core.model.ScannedApplication;
 import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.di.component.CoreComponent;
-import org.satorysoft.cotton.di.component.Dagger_CoreComponent;
-import org.satorysoft.cotton.di.component.Dagger_RootComponent;
+import org.satorysoft.cotton.di.component.DaggerCoreComponent;
+import org.satorysoft.cotton.di.component.DaggerRootComponent;
 import org.satorysoft.cotton.di.component.RootComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.di.module.RootModule;
@@ -37,7 +37,7 @@ import de.greenrobot.event.EventBus;
  * Created by viacheslavokolitiy on 02.04.2015.
  */
 public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApplication>> {
-    private static final CharSequence ARRAY_DIVIDER = "__,__";
+    public static final CharSequence ARRAY_DIVIDER = "__,__";
     private final CoreComponent mCoreComponent;
     private final PackageManager mPackageManager;
     private final ArcProgress mProgress;
@@ -48,8 +48,8 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
     public ApplicationScanner(Context context, ArcProgress progress){
         this.mContext = context;
         this.mProgress = progress;
-        this.mCoreComponent = Dagger_CoreComponent.builder().coreModule(new CoreModule(mContext)).build();
-        this.rootComponent = Dagger_RootComponent.builder().rootModule(new RootModule(mContext)).build();
+        this.mCoreComponent = DaggerCoreComponent.builder().coreModule(new CoreModule(mContext)).build();
+        this.rootComponent = DaggerRootComponent.builder().rootModule(new RootModule(mContext)).build();
         this.mPackageManager = mCoreComponent.getPackageManager();
     }
 

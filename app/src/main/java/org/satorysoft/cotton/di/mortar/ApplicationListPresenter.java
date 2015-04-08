@@ -10,14 +10,12 @@ import org.satorysoft.cotton.core.model.InstalledApplication;
 import org.satorysoft.cotton.core.model.ScannedApplication;
 import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.di.component.CoreComponent;
-import org.satorysoft.cotton.di.component.Dagger_CoreComponent;
+import org.satorysoft.cotton.di.component.DaggerCoreComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.ui.animator.SlideInFromLeftItemAnimator;
 import org.satorysoft.cotton.ui.view.ApplicationListView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,7 +37,7 @@ public class ApplicationListPresenter extends ViewPresenter<ApplicationListView>
     }
 
     public void populateListView(RecyclerView recyclerView, Context context){
-        this.mCoreComponent = Dagger_CoreComponent.builder().coreModule(new CoreModule(context)).build();
+        this.mCoreComponent = DaggerCoreComponent.builder().coreModule(new CoreModule(context)).build();
         Cursor cursor = context.getContentResolver().query(ScannedApplicationContract.CONTENT_URI,
                 null, null, null, null);
         List<ScannedApplication> scannedApplicationList = new ArrayList<>();
@@ -61,15 +59,6 @@ public class ApplicationListPresenter extends ViewPresenter<ApplicationListView>
         cursor.close();
 
         ApplicationListAdapter adapter = mCoreComponent.getAdapter();
-
-        Collections.sort(scannedApplicationList, new Comparator<ScannedApplication>() {
-            @Override
-            public int compare(ScannedApplication first, ScannedApplication second) {
-                Double riskOne = first.getInstalledApplication().getApplicationRiskRate();
-                Double riskTwo = second.getInstalledApplication().getApplicationRiskRate();
-                return riskOne.compareTo(riskTwo);
-            }
-        });
 
         for(ScannedApplication scannedApplication : scannedApplicationList){
             adapter.addItem(scannedApplication);

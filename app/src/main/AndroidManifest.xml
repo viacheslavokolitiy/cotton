@@ -23,6 +23,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.ApplicationListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.ApplicationDetailActivity"
+            android:screenOrientation="portrait"/>
         <provider
             android:authorities="org.satorysoft.cotton"
             android:name=".db.provider.ScannedApplicationProvider"

@@ -10,13 +10,13 @@ import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
 import org.satorysoft.cotton.di.mortar.ApplicationListPresenter;
 import org.satorysoft.cotton.ui.activity.ApplicationListActivity;
+import org.satorysoft.cotton.util.DaggerServiceCompat;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
-import mortar.dagger2support.DaggerService;
 
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
@@ -35,7 +35,7 @@ public class ApplicationListView extends DrawerLayout {
     public ApplicationListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        DaggerService.<ApplicationListComponent>getDaggerComponent(context).inject(this);
+        DaggerServiceCompat.<ApplicationListComponent>getDaggerComponent(context).inject(this);
         EventBus.getDefault().register(this);
     }
 

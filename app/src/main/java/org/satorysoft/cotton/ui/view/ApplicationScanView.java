@@ -9,12 +9,12 @@ import com.github.lzyzsd.circleprogress.ArcProgress;
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.di.component.mortar.ApplicationScanComponent;
 import org.satorysoft.cotton.di.mortar.ApplicationScan;
+import org.satorysoft.cotton.util.DaggerServiceCompat;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import mortar.dagger2support.DaggerService;
 
 /**
  * Created by viacheslavokolitiy on 01.04.2015.
@@ -30,7 +30,7 @@ public class ApplicationScanView extends RelativeLayout {
 
     public ApplicationScanView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        DaggerService.<ApplicationScanComponent>getDaggerComponent(context).inject(this);
+        DaggerServiceCompat.<ApplicationScanComponent>getDaggerComponent(context).inject(this);
     }
 
     @Override

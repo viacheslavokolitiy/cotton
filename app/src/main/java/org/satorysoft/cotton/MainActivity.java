@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import org.satorysoft.cotton.di.component.Dagger_RootComponent;
+import org.satorysoft.cotton.di.component.DaggerRootComponent;
 import org.satorysoft.cotton.di.component.RootComponent;
 import org.satorysoft.cotton.di.module.RootModule;
 import org.satorysoft.cotton.ui.activity.ApplicationListActivity;
@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void initComponent(){
-        this.rootComponent = Dagger_RootComponent.builder().rootModule(new RootModule(this)).build();
+        this.rootComponent = DaggerRootComponent.builder().rootModule(new RootModule(this)).build();
     }
 
     private boolean isFirstRun(){
