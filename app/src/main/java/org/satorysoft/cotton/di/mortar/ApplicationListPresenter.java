@@ -16,8 +16,6 @@ import org.satorysoft.cotton.ui.animator.SlideInFromLeftItemAnimator;
 import org.satorysoft.cotton.ui.view.ApplicationListView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;

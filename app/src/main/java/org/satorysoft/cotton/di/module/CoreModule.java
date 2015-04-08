@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 
 import org.satorysoft.cotton.adapter.ApplicationListAdapter;
+import org.satorysoft.cotton.adapter.IDrawableStateManager;
 import org.satorysoft.cotton.core.model.PermissionList;
 
 import dagger.Module;
@@ -31,7 +32,7 @@ public class CoreModule {
     }
 
     @Provides
-    public ApplicationListAdapter provideAdapter(){
+    public IDrawableStateManager provideAdapter(){
         return new ApplicationListAdapter(context);
     }
 }

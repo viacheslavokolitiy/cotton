@@ -37,7 +37,7 @@ import de.greenrobot.event.EventBus;
  * Created by viacheslavokolitiy on 02.04.2015.
  */
 public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApplication>> {
-    private static final CharSequence ARRAY_DIVIDER = "__,__";
+    public static final CharSequence ARRAY_DIVIDER = "__,__";
     private final CoreComponent mCoreComponent;
     private final PackageManager mPackageManager;
     private final ArcProgress mProgress;

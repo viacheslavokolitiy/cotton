@@ -2,11 +2,11 @@ package org.satorysoft.cotton.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.CompletedScanEvent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationScanComponent;
+import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 
 import de.greenrobot.event.EventBus;
 import mortar.MortarScope;
@@ -20,7 +20,7 @@ import static mortar.dagger2support.DaggerService.createComponent;
 /**
  * Created by viacheslavokolitiy on 01.04.2015.
  */
-public class ApplicationScanActivity extends ActionBarActivity {
+public class ApplicationScanActivity extends MortarActivity {
     @Override
     public Object getSystemService(String name) {
         MortarScope activityScope = findChild(getApplicationContext(), getScopeName());
@@ -62,8 +62,14 @@ public class ApplicationScanActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-    private String getScopeName() {
+    @Override
+    public String getScopeName() {
         return getClass().getName();
+    }
+
+    @Override
+    public void setCustomActionBarTitle(String title) {
+        //do nothing now
     }
 
     public void onEvent(CompletedScanEvent event){

@@ -3,7 +3,6 @@ package org.satorysoft.cotton.ui.activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +16,7 @@ import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.DrawerListAdapter;
 import org.satorysoft.cotton.core.model.DrawerItem;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
+import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
 import org.satorysoft.cotton.ui.drawable.DrawerToggle;
 import org.satorysoft.cotton.ui.view.RobotoTextView;
@@ -35,7 +35,7 @@ import static mortar.dagger2support.DaggerService.createComponent;
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
  */
-public class ApplicationListActivity extends ActionBarActivity {
+public class ApplicationListActivity extends MortarActivity {
 
     private ArrowDrawable mDrawerArrow;
     private DrawerToggle mActionBarDrawerToggle;
@@ -133,7 +133,7 @@ public class ApplicationListActivity extends ActionBarActivity {
             }
         });
 
-        setCustomActionBarTitle();
+        setCustomActionBarTitle(getString(R.string.text_action_bar_app_title));
     }
 
     @Override
@@ -152,7 +152,8 @@ public class ApplicationListActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-    private String getScopeName() {
+    @Override
+    public String getScopeName() {
         return getClass().getName();
     }
 
@@ -208,12 +209,13 @@ public class ApplicationListActivity extends ActionBarActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void setCustomActionBarTitle() {
+    @Override
+    public void setCustomActionBarTitle(String title) {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         LayoutInflater inflater = LayoutInflater.from(this);
         View v = inflater.inflate(R.layout.layout_action_bar_title, null);
-        ((RobotoTextView)v.findViewById(R.id.text_custom_action_bar_title)).setText("Applications");
+        ((RobotoTextView)v.findViewById(R.id.text_custom_action_bar_title)).setText(title);
         getSupportActionBar().setCustomView(v);
     }
 }
