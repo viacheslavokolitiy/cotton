@@ -10,7 +10,7 @@ import org.satorysoft.cotton.core.model.InstalledApplication;
 import org.satorysoft.cotton.core.model.ScannedApplication;
 import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.di.component.CoreComponent;
-import org.satorysoft.cotton.di.component.Dagger_CoreComponent;
+import org.satorysoft.cotton.di.component.DaggerCoreComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.ui.animator.SlideInFromLeftItemAnimator;
 import org.satorysoft.cotton.ui.view.ApplicationListView;
@@ -37,7 +37,7 @@ public class ApplicationListPresenter extends ViewPresenter<ApplicationListView>
     }
 
     public void populateListView(RecyclerView recyclerView, Context context){
-        this.mCoreComponent = Dagger_CoreComponent.builder().coreModule(new CoreModule(context)).build();
+        this.mCoreComponent = DaggerCoreComponent.builder().coreModule(new CoreModule(context)).build();
         Cursor cursor = context.getContentResolver().query(ScannedApplicationContract.CONTENT_URI,
                 null, null, null, null);
         List<ScannedApplication> scannedApplicationList = new ArrayList<>();

@@ -30,4 +30,20 @@
             android:id="@+id/text_application_name_detail"
             android:layout_height="wrap_content" />
      </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/application_card_detail"
+        android:layout_marginRight="10dp"
+        android:id="@+id/application_permission_detail_list"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        app:cardCornerRadius="2dp"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:id="@+id/recycler_permissions"
+            android:layout_height="match_parent"/>
+    </android.support.v7.widget.CardView>
 </org.satorysoft.cotton.ui.view.ApplicationDetailView>

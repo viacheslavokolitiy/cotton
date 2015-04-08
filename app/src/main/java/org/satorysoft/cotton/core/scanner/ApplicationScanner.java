@@ -18,8 +18,8 @@ import org.satorysoft.cotton.core.model.InstalledApplication;
 import org.satorysoft.cotton.core.model.ScannedApplication;
 import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.di.component.CoreComponent;
-import org.satorysoft.cotton.di.component.Dagger_CoreComponent;
-import org.satorysoft.cotton.di.component.Dagger_RootComponent;
+import org.satorysoft.cotton.di.component.DaggerCoreComponent;
+import org.satorysoft.cotton.di.component.DaggerRootComponent;
 import org.satorysoft.cotton.di.component.RootComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.di.module.RootModule;
@@ -48,8 +48,8 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
     public ApplicationScanner(Context context, ArcProgress progress){
         this.mContext = context;
         this.mProgress = progress;
-        this.mCoreComponent = Dagger_CoreComponent.builder().coreModule(new CoreModule(mContext)).build();
-        this.rootComponent = Dagger_RootComponent.builder().rootModule(new RootModule(mContext)).build();
+        this.mCoreComponent = DaggerCoreComponent.builder().coreModule(new CoreModule(mContext)).build();
+        this.rootComponent = DaggerRootComponent.builder().rootModule(new RootModule(mContext)).build();
         this.mPackageManager = mCoreComponent.getPackageManager();
     }
 

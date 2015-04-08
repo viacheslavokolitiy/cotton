@@ -20,6 +20,7 @@ import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
 import org.satorysoft.cotton.ui.drawable.DrawerToggle;
 import org.satorysoft.cotton.ui.view.RobotoTextView;
+import org.satorysoft.cotton.util.DaggerServiceCompat;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ import mortar.dagger2support.DaggerService;
 
 import static mortar.MortarScope.buildChild;
 import static mortar.MortarScope.findChild;
-import static mortar.dagger2support.DaggerService.createComponent;
+import static org.satorysoft.cotton.util.DaggerServiceCompat.createComponent;
 
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
@@ -51,7 +52,7 @@ public class ApplicationListActivity extends MortarActivity {
         if (activityScope == null) {
             activityScope = buildChild(getApplicationContext()) //
                     .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
-                    .withService(DaggerService.SERVICE_NAME, createComponent(ApplicationListComponent.class))
+                    .withService(DaggerServiceCompat.SERVICE_NAME, createComponent(ApplicationListComponent.class))
                     .build(getScopeName());
         }
 
