@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.widget.ListView;
 
 import org.satorysoft.cotton.R;
+import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
+import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
 import org.satorysoft.cotton.di.mortar.ApplicationListPresenter;
 import org.satorysoft.cotton.ui.activity.ApplicationListActivity;
@@ -56,11 +58,20 @@ public class ApplicationListView extends DrawerLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         applicationListPresenter.dropView(this);
+        EventBus.getDefault().unregister(this);
     }
 
     public void onEvent(ApplicationListActivity.PopulateDrawerEvent event){
         if(event.getAdapter() != null){
             leftDrawer.setAdapter(event.getAdapter());
         }
+    }
+
+    public void onEvent(SortAppsByRiskEvent event){
+        applicationListPresenter.sortListByRisk(recyclerView, context);
+    }
+
+    public void onEvent(SortAppsByNameEvent event){
+        applicationListPresenter.sortListByApplicationName(recyclerView, context);
     }
 }

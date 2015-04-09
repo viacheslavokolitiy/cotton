@@ -14,6 +14,8 @@ import android.widget.ListView;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.DrawerListAdapter;
+import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
+import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
 import org.satorysoft.cotton.core.model.DrawerItem;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
@@ -177,6 +179,10 @@ public class ApplicationListActivity extends MortarActivity {
             } else {
                 containingView.openDrawer(leftDrawer);
             }
+        } else if(item.getItemId() == R.id.action_settings){
+            EventBus.getDefault().post(new SortAppsByRiskEvent());
+        } else if(item.getItemId() == R.id.action_sort_by_name){
+            EventBus.getDefault().post(new SortAppsByNameEvent());
         }
 
         return super.onOptionsItemSelected(item);

@@ -16,6 +16,8 @@ import org.satorysoft.cotton.ui.animator.SlideInFromLeftItemAnimator;
 import org.satorysoft.cotton.ui.view.ApplicationListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,18 +32,20 @@ import mortar.ViewPresenter;
 public class ApplicationListPresenter extends ViewPresenter<ApplicationListView> {
 
     private CoreComponent mCoreComponent;
+    private boolean needSortByRisk;
+    private boolean needSortByName;
 
     @Inject
-    public ApplicationListPresenter(){
+    public ApplicationListPresenter() {
 
     }
 
-    public void populateListView(RecyclerView recyclerView, Context context){
+    public void populateListView(RecyclerView recyclerView, Context context) {
         this.mCoreComponent = DaggerCoreComponent.builder().coreModule(new CoreModule(context)).build();
         Cursor cursor = context.getContentResolver().query(ScannedApplicationContract.CONTENT_URI,
                 null, null, null, null);
         List<ScannedApplication> scannedApplicationList = new ArrayList<>();
-        if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()){
+        if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
             do {
                 String applicationName = cursor.getString(cursor.getColumnIndex(ScannedApplicationContract.APPLICATION_NAME));
                 byte[] value = cursor.getBlob(cursor.getColumnIndex(ScannedApplicationContract.APPLICATION_ICON));
@@ -60,7 +64,35 @@ public class ApplicationListPresenter extends ViewPresenter<ApplicationListView>
 
         ApplicationListAdapter adapter = mCoreComponent.getAdapter();
 
-        for(ScannedApplication scannedApplication : scannedApplicationList){
+        if (needSortByRisk) {
+            Collections.sort(scannedApplicationList, new Comparator<ScannedApplication>() {
+                @Override
+                public int compare(ScannedApplication firstApplication,
+                                   ScannedApplication secondApplication) {
+                    Double firstApplicationRisk = firstApplication.getInstalledApplication().getApplicationRiskRate();
+                    Double secondApplicationRisk = secondApplication.getInstalledApplication().getApplicationRiskRate();
+                    return firstApplicationRisk.compareTo(secondApplicationRisk);
+                }
+            });
+        }
+
+        if (needSortByName) {
+            Collections.sort(scannedApplicationList, new Comparator<ScannedApplication>() {
+                @Override
+                public int compare(ScannedApplication firstApplication, ScannedApplication secondApplication) {
+                    return secondApplication
+                            .getInstalledApplication()
+                            .getApplicationName()
+                            .compareTo(
+                                    firstApplication
+                                            .getInstalledApplication()
+                                            .getApplicationName()
+                            );
+                }
+            });
+        }
+
+        for (ScannedApplication scannedApplication : scannedApplicationList) {
             adapter.addItem(scannedApplication);
         }
 
@@ -69,5 +101,17 @@ public class ApplicationListPresenter extends ViewPresenter<ApplicationListView>
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    public void sortListByRisk(RecyclerView recyclerView, Context context) {
+        needSortByRisk = true;
+        needSortByName = false;
+        populateListView(recyclerView, context);
+    }
+
+    public void sortListByApplicationName(RecyclerView recyclerView, Context context) {
+        needSortByRisk = false;
+        needSortByName = true;
+        populateListView(recyclerView, context);
     }
 }
