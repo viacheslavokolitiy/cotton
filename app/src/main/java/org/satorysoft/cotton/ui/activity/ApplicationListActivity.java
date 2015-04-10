@@ -1,8 +1,11 @@
 package org.satorysoft.cotton.ui.activity;
 
+import android.app.AlertDialog;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +13,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.satorysoft.cotton.R;
@@ -17,16 +21,21 @@ import org.satorysoft.cotton.adapter.DrawerListAdapter;
 import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
 import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
 import org.satorysoft.cotton.core.model.DrawerItem;
+import org.satorysoft.cotton.di.component.DaggerUIViewsComponent;
+import org.satorysoft.cotton.di.component.UIViewsComponent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
+import org.satorysoft.cotton.di.module.UIViewsModule;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
 import org.satorysoft.cotton.ui.drawable.DrawerToggle;
+import org.satorysoft.cotton.ui.view.FloatingActionButton;
 import org.satorysoft.cotton.ui.view.RobotoTextView;
 import org.satorysoft.cotton.util.DaggerServiceCompat;
 
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
+import me.drakeet.materialdialog.MaterialDialog;
 import mortar.MortarScope;
 import mortar.bundler.BundleServiceRunner;
 
@@ -37,7 +46,7 @@ import static org.satorysoft.cotton.util.DaggerServiceCompat.createComponent;
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
  */
-public class ApplicationListActivity extends MortarActivity {
+public class ApplicationListActivity extends MortarActivity implements View.OnClickListener {
 
     private ArrowDrawable mDrawerArrow;
     private DrawerToggle mActionBarDrawerToggle;
@@ -45,6 +54,9 @@ public class ApplicationListActivity extends MortarActivity {
     private DrawerLayout containingView;
     private ListView leftDrawer;
     private MenuInflater mInflater;
+    private UIViewsComponent uiComponent;
+    private MaterialDialog materialDialog;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     public Object getSystemService(String name) {
@@ -67,6 +79,8 @@ public class ApplicationListActivity extends MortarActivity {
 
         BundleServiceRunner.getBundleServiceRunner(this).onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_list);
+        this.uiComponent = DaggerUIViewsComponent.builder().uIViewsModule(new UIViewsModule(this)).build();
+        this.materialDialog = uiComponent.getMaterialDialog();
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         containingView = (DrawerLayout) findViewById(R.id.drawer_view);
@@ -136,6 +150,42 @@ public class ApplicationListActivity extends MortarActivity {
         });
 
         setCustomActionBarTitle(getString(R.string.text_action_bar_app_title));
+
+        floatingActionButton = new FloatingActionButton.Builder(this)
+                .withDrawable(getResources().getDrawable(R.mipmap.ic_action_search))
+                .withButtonColor(getResources().getColor(R.color.md_red_500))
+                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
+                .withMargins(0, 0, 16, 16)
+                .create();
+        floatingActionButton.setOnClickListener(this);
+    }
+
+    private void showSearchDialog() {
+        materialDialog.setTitle("Search application")
+                .setPositiveButton("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        materialDialog.dismiss();
+                        floatingActionButton.showFloatingActionButton();
+
+                    }
+                })
+                .setNegativeButton("CANCEL", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        materialDialog.dismiss();
+                        floatingActionButton.showFloatingActionButton();
+                    }
+                });
+        materialDialog.setMessage("");
+        materialDialog.setContentView(createCustomDialogView());
+        floatingActionButton.hideFloatingActionButton();
+        materialDialog.show();
+    }
+
+    private View createCustomDialogView(){
+        LayoutInflater inflater = getLayoutInflater();
+        return inflater.inflate(R.layout.search_video_dialog_view, null, false);
     }
 
     @Override
@@ -157,6 +207,11 @@ public class ApplicationListActivity extends MortarActivity {
     @Override
     public String getScopeName() {
         return getClass().getName();
+    }
+
+    @Override
+    public void onClick(View view) {
+        showSearchDialog();
     }
 
     public static class PopulateDrawerEvent {
