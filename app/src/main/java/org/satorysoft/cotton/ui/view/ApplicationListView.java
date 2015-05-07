@@ -12,12 +12,12 @@ import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
 import org.satorysoft.cotton.di.mortar.ApplicationListPresenter;
 import org.satorysoft.cotton.ui.activity.ApplicationListActivity;
-import org.satorysoft.cotton.util.DaggerServiceCompat;
+import org.satorysoft.cotton.util.DaggerService;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.FindView;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -27,9 +27,9 @@ public class ApplicationListView extends DrawerLayout {
     @Inject
     ApplicationListPresenter applicationListPresenter;
 
-    @InjectView(R.id.recycler)
+    @FindView(R.id.recycler)
     protected RecyclerView recyclerView;
-    @InjectView(R.id.left_drawer)
+    @FindView(R.id.left_drawer)
     protected ListView leftDrawer;
 
     private Context context;
@@ -37,14 +37,14 @@ public class ApplicationListView extends DrawerLayout {
     public ApplicationListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        DaggerServiceCompat.<ApplicationListComponent>getDaggerComponent(context).inject(this);
+        DaggerService.<ApplicationListComponent>getDaggerComponent(context).inject(this);
         EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         applicationListPresenter.populateListView(recyclerView, context);
     }
 

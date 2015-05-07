@@ -4,12 +4,10 @@ import android.content.Context;
 
 import java.lang.reflect.Method;
 
-import mortar.dagger2support.DaggerService;
-
 /**
  * Created by viacheslavokolitiy on 08.04.2015.
  */
-public class DaggerServiceCompat {
+public class DaggerService {
     public static final String SERVICE_NAME = DaggerService.class.getName();
 
     /**

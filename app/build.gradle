@@ -31,7 +31,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'com.google.dagger:dagger:2.1-SNAPSHOT'
     apt 'com.google.dagger:dagger-compiler:2.1-SNAPSHOT'
@@ -39,12 +39,11 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.+'
     compile 'com.android.support:cardview-v7:21.+'
     compile 'javax.annotation:jsr250-api:1.0'
-    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.jakewharton:butterknife:7.0.0-SNAPSHOT'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-    compile 'com.squareup.flow:flow:0.9-SNAPSHOT'
-    compile 'com.squareup.mortar:mortar:0.17-SNAPSHOT'
-    compile 'com.squareup.mortar:dagger2support:0.17-SNAPSHOT'
+    compile 'com.squareup.flow:flow:0.10'
+    compile 'com.squareup.mortar:mortar:0.17'
     compile 'com.github.provigen:ProviGen-lib:2.0.+'
     compile 'me.drakeet.materialdialog:library:1.2.2'
 }

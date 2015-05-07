@@ -1,8 +1,6 @@
 package org.satorysoft.cotton.ui.activity;
 
-import android.app.AlertDialog;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -13,7 +11,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.satorysoft.cotton.R;
@@ -30,7 +27,7 @@ import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
 import org.satorysoft.cotton.ui.drawable.DrawerToggle;
 import org.satorysoft.cotton.ui.view.FloatingActionButton;
 import org.satorysoft.cotton.ui.view.RobotoTextView;
-import org.satorysoft.cotton.util.DaggerServiceCompat;
+import org.satorysoft.cotton.util.DaggerService;
 
 import java.util.ArrayList;
 
@@ -41,7 +38,7 @@ import mortar.bundler.BundleServiceRunner;
 
 import static mortar.MortarScope.buildChild;
 import static mortar.MortarScope.findChild;
-import static org.satorysoft.cotton.util.DaggerServiceCompat.createComponent;
+import static org.satorysoft.cotton.util.DaggerService.createComponent;
 
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
@@ -65,7 +62,7 @@ public class ApplicationListActivity extends MortarActivity implements View.OnCl
         if (activityScope == null) {
             activityScope = buildChild(getApplicationContext()) //
                     .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
-                    .withService(DaggerServiceCompat.SERVICE_NAME, createComponent(ApplicationListComponent.class))
+                    .withService(DaggerService.SERVICE_NAME, createComponent(ApplicationListComponent.class))
                     .build(getScopeName());
         }
 

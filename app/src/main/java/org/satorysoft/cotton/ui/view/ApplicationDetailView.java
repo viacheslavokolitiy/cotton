@@ -10,12 +10,12 @@ import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.PopulateCardViewEvent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationDetailComponent;
 import org.satorysoft.cotton.di.mortar.ApplicationDetailPresenter;
-import org.satorysoft.cotton.util.DaggerServiceCompat;
+import org.satorysoft.cotton.util.DaggerService;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.FindView;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -26,24 +26,24 @@ public class ApplicationDetailView extends RelativeLayout {
     protected ApplicationDetailPresenter presenter;
     private Context context;
 
-    @InjectView(R.id.application_icon_detail)
+    @FindView(R.id.application_icon_detail)
     protected ImageView applicationLogo;
-    @InjectView(R.id.text_application_name_detail)
+    @FindView(R.id.text_application_name_detail)
     protected RobotoTextView applicationName;
-    @InjectView(R.id.recycler_permissions)
+    @FindView(R.id.recycler_permissions)
     protected RecyclerView recyclerView;
 
     public ApplicationDetailView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        DaggerServiceCompat.<ApplicationDetailComponent>getDaggerComponent(context).inject(this);
+        DaggerService.<ApplicationDetailComponent>getDaggerComponent(context).inject(this);
         EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
     }
 
     @Override

@@ -31,7 +31,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.FindView;
 
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
@@ -92,16 +92,16 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     }
 
     class AppListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @InjectView(R.id.application_icon)
+        @FindView(R.id.application_icon)
         protected ImageView applicationLogo;
-        @InjectView(R.id.text_application_name)
+        @FindView(R.id.text_application_name)
         protected RobotoTextView applicationTitle;
-        @InjectView(R.id.risk_indicator)
+        @FindView(R.id.risk_indicator)
         protected LinearLayout riskIndicator;
 
         public AppListViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.inject(this, itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 

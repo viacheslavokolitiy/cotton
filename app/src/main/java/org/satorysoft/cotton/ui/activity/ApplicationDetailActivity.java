@@ -13,7 +13,7 @@ import org.satorysoft.cotton.di.component.mortar.ApplicationDetailComponent;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.ui.view.RobotoTextView;
 import org.satorysoft.cotton.util.Constants;
-import org.satorysoft.cotton.util.DaggerServiceCompat;
+import org.satorysoft.cotton.util.DaggerService;
 
 import de.greenrobot.event.EventBus;
 import mortar.MortarScope;
@@ -21,7 +21,7 @@ import mortar.bundler.BundleServiceRunner;
 
 import static mortar.MortarScope.buildChild;
 import static mortar.MortarScope.findChild;
-import static org.satorysoft.cotton.util.DaggerServiceCompat.createComponent;
+import static org.satorysoft.cotton.util.DaggerService.createComponent;
 
 /**
  * Created by viacheslavokolitiy on 08.04.2015.
@@ -34,7 +34,7 @@ public class ApplicationDetailActivity extends MortarActivity {
         if (activityScope == null) {
             activityScope = buildChild(getApplicationContext()) //
                     .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
-                    .withService(DaggerServiceCompat.SERVICE_NAME, createComponent(ApplicationDetailComponent.class))
+                    .withService(DaggerService.SERVICE_NAME, createComponent(ApplicationDetailComponent.class))
                     .build(getScopeName());
         }
 

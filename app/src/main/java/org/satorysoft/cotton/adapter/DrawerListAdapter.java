@@ -12,7 +12,7 @@ import org.satorysoft.cotton.ui.view.RobotoTextView;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.FindView;
 
 /**
  * Created by viacheslavokolitiy on 06.04.2015.
@@ -38,11 +38,11 @@ public class DrawerListAdapter extends BaseArrayAdapter<DrawerItem> {
     }
 
     class ViewHolder {
-        @InjectView(R.id.text_drawer_item)
+        @FindView(R.id.text_drawer_item)
         protected RobotoTextView drawerItemTitle;
 
         ViewHolder(View view){
-            ButterKnife.inject(this, view);
+            ButterKnife.bind(this, view);
         }
     }
 }

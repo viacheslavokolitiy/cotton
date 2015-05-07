@@ -82,14 +82,7 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
                     scannedApplication.setScanDate(System.currentTimeMillis());
                     scannedApplications.add(scannedApplication);
 
-                    synchronized (this){
-                        try {
-                            wait(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        publishProgress(progress++);
-                    }
+                    publishProgress(progress++);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }

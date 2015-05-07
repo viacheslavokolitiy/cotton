@@ -15,7 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.FindView;
 
 /**
  * Created by viacheslavokolitiy on 08.04.2015.
@@ -56,12 +56,12 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
     }
 
     class PermissionListViewHolder extends RecyclerView.ViewHolder{
-        @InjectView(R.id.permission_name)
+        @FindView(R.id.permission_name)
         protected RobotoTextView permissionNameView;
 
         public PermissionListViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.inject(this, itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
