@@ -3,6 +3,8 @@ package org.satorysoft.cotton.ui.activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +33,7 @@ import org.satorysoft.cotton.util.DaggerService;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import me.drakeet.materialdialog.MaterialDialog;
 import mortar.MortarScope;
@@ -155,6 +158,8 @@ public class ApplicationListActivity extends MortarActivity implements View.OnCl
                 .withMargins(0, 0, 16, 16)
                 .create();
         floatingActionButton.setOnClickListener(this);
+
+        hideActionButtonOnScroll();
     }
 
     private void showSearchDialog() {
@@ -275,5 +280,21 @@ public class ApplicationListActivity extends MortarActivity implements View.OnCl
         View v = inflater.inflate(R.layout.layout_action_bar_title, null);
         ((RobotoTextView)v.findViewById(R.id.text_custom_action_bar_title)).setText(title);
         getSupportActionBar().setCustomView(v);
+    }
+
+    private void  hideActionButtonOnScroll(){
+        RecyclerView view = ButterKnife.findById(this, R.id.recycler);
+        if(view != null){
+            view.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    if(newState == MotionEvent.ACTION_UP){
+                        floatingActionButton.setVisibility(View.INVISIBLE);
+                    } else {
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
     }
 }
