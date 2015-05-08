@@ -20,45 +20,27 @@ import static org.satorysoft.cotton.util.DaggerService.createComponent;
 /**
  * Created by viacheslavokolitiy on 01.04.2015.
  */
-public class ApplicationScanActivity extends MortarActivity {
+public class ApplicationScanActivity extends MortarActivity<ApplicationScanComponent> {
     @Override
     public Object getSystemService(String name) {
-        MortarScope activityScope = findChild(getApplicationContext(), getScopeName());
-
-        if (activityScope == null) {
-            activityScope = buildChild(getApplicationContext()) //
-                    .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
-                    .withService(DaggerService.SERVICE_NAME, createComponent(ApplicationScanComponent.class))
-                    .build(getScopeName());
-        }
-
-        return activityScope.hasService(name) ? activityScope.getService(name)
-                : super.getSystemService(name);
+        return super.getSystemService(name);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        BundleServiceRunner.getBundleServiceRunner(this).onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_scan);
         getSupportActionBar().hide();
         EventBus.getDefault().register(this);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        BundleServiceRunner.getBundleServiceRunner(this).onSaveInstanceState(outState);
     }
 
     @Override
     protected void onDestroy() {
-        if (isFinishing()) {
-            MortarScope activityScope = findChild(getApplicationContext(), getScopeName());
-            if (activityScope != null) activityScope.destroy();
-        }
-
         super.onDestroy();
     }
 
