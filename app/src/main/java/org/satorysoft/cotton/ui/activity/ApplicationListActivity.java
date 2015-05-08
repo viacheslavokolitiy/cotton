@@ -46,7 +46,7 @@ import static org.satorysoft.cotton.util.DaggerService.createComponent;
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
  */
-public class ApplicationListActivity extends MortarActivity implements View.OnClickListener {
+public class ApplicationListActivity extends MortarActivity<ApplicationListComponent> implements View.OnClickListener {
 
     private ArrowDrawable mDrawerArrow;
     private DrawerToggle mActionBarDrawerToggle;
@@ -60,24 +60,12 @@ public class ApplicationListActivity extends MortarActivity implements View.OnCl
 
     @Override
     public Object getSystemService(String name) {
-        MortarScope activityScope = findChild(getApplicationContext(), getScopeName());
-
-        if (activityScope == null) {
-            activityScope = buildChild(getApplicationContext()) //
-                    .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
-                    .withService(DaggerService.SERVICE_NAME, createComponent(ApplicationListComponent.class))
-                    .build(getScopeName());
-        }
-
-        return activityScope.hasService(name) ? activityScope.getService(name)
-                : super.getSystemService(name);
+        return super.getSystemService(name);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        BundleServiceRunner.getBundleServiceRunner(this).onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_list);
         this.uiComponent = DaggerUIViewsComponent.builder().uIViewsModule(new UIViewsModule(this)).build();
         this.materialDialog = uiComponent.getMaterialDialog();
@@ -191,18 +179,12 @@ public class ApplicationListActivity extends MortarActivity implements View.OnCl
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        BundleServiceRunner.getBundleServiceRunner(this).onSaveInstanceState(outState);
     }
 
     @Override
     protected void onDestroy() {
-        if (isFinishing()) {
-            MortarScope activityScope = findChild(getApplicationContext(), getScopeName());
-            if (activityScope != null) activityScope.destroy();
-        }
-
         super.onDestroy();
     }
 

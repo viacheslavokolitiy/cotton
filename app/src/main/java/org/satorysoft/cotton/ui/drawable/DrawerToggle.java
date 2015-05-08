@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,7 @@ import java.lang.reflect.Method;
 public class DrawerToggle extends ActionBarDrawerToggle {
     private static final String TAG = ActionBarDrawerToggle.class.getName();
 
-    protected ActionBarActivity mActivity;
+    protected AppCompatActivity mActivity;
     protected DrawerLayout mDrawerLayout;
 
     protected int mOpenDrawerContentDescRes;
@@ -40,7 +41,7 @@ public class DrawerToggle extends ActionBarDrawerToggle {
         super(activity, drawerLayout, drawerImageRes, openDrawerContentDescRes, closeDrawerContentDescRes);
     }
 
-    public DrawerToggle(ActionBarActivity activity, DrawerLayout drawerLayout,
+    public DrawerToggle(AppCompatActivity activity, DrawerLayout drawerLayout,
                                ArrowDrawable drawerImage, int openDrawerContentDescRes,
                                int closeDrawerContentDescRes) {
         super(activity, drawerLayout, R.mipmap.ic_drawer, openDrawerContentDescRes, closeDrawerContentDescRes);

@@ -26,20 +26,10 @@ import static org.satorysoft.cotton.util.DaggerService.createComponent;
 /**
  * Created by viacheslavokolitiy on 08.04.2015.
  */
-public class ApplicationDetailActivity extends MortarActivity {
+public class ApplicationDetailActivity extends MortarActivity<ApplicationDetailComponent> {
     @Override
     public Object getSystemService(String name) {
-        MortarScope activityScope = findChild(getApplicationContext(), getScopeName());
-
-        if (activityScope == null) {
-            activityScope = buildChild(getApplicationContext()) //
-                    .withService(BundleServiceRunner.SERVICE_NAME, new BundleServiceRunner())
-                    .withService(DaggerService.SERVICE_NAME, createComponent(ApplicationDetailComponent.class))
-                    .build(getScopeName());
-        }
-
-        return activityScope.hasService(name) ? activityScope.getService(name)
-                : super.getSystemService(name);
+        return super.getSystemService(name);
     }
 
     @Override
@@ -60,7 +50,6 @@ public class ApplicationDetailActivity extends MortarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BundleServiceRunner.getBundleServiceRunner(this).onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_detail);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -71,18 +60,12 @@ public class ApplicationDetailActivity extends MortarActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        BundleServiceRunner.getBundleServiceRunner(this).onSaveInstanceState(outState);
     }
 
     @Override
     protected void onDestroy() {
-        if (isFinishing()) {
-            MortarScope activityScope = findChild(getApplicationContext(), getScopeName());
-            if (activityScope != null) activityScope.destroy();
-        }
-
         super.onDestroy();
     }
 
