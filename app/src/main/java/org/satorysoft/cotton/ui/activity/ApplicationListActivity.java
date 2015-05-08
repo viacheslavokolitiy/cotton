@@ -213,7 +213,7 @@ public class ApplicationListActivity extends MortarActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        showSearchDialog();
+        //TODO: showSeachDialog();
     }
 
     public static class PopulateDrawerEvent {
