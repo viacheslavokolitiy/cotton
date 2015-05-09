@@ -24,6 +24,7 @@ import org.satorysoft.cotton.di.component.RootComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.di.module.RootModule;
 import org.satorysoft.cotton.util.BooleanPreference;
+import org.satorysoft.cotton.util.DrawableConverter;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
                 String applicationName = applicationInfo.loadLabel(mPackageManager).toString();
                 String packageName = applicationInfo.packageName;
                 Drawable applicationIcon = applicationInfo.loadIcon(mPackageManager);
-                byte[] imageRepresentation = convertDrawable(applicationIcon);
+                byte[] imageRepresentation = new DrawableConverter().convertDrawable(applicationIcon);
 
                 try {
                     PackageInfo permissionsInfo = mPackageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
@@ -149,13 +150,6 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
 
     private List<String> getDangerousPermissions(){
         return mCoreComponent.getPermissionList().getHighRiskPermissions();
-    }
-
-    private byte[] convertDrawable(Drawable drawable){
-        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
     }
 
     private void saveScanResultToDatabase(List<ScannedApplication> scannedApplications){
