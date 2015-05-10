@@ -28,11 +28,25 @@
         <activity
             android:name=".ui.activity.ApplicationDetailActivity"
             android:screenOrientation="portrait" />
+        <receiver android:name=".core.receiver.ApplicationInstalledReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name=".db.provider.ScannedApplicationProvider"
             android:authorities="org.satorysoft.cotton"
-            android:exported="false" />
+            android:exported="false">
+        </provider>
+
+        <service android:name=".core.service.RecentApplicationScanner"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.satorysoft.cotton.intent.scan_new_app"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
