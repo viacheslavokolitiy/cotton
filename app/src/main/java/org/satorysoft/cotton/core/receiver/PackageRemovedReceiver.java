@@ -1,5 +1,6 @@
 package org.satorysoft.cotton.core.receiver;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
@@ -7,12 +8,12 @@ import org.satorysoft.cotton.core.receiver.base.BaseApplicationReceiver;
 import org.satorysoft.cotton.util.Constants;
 
 /**
- * Created by viacheslavokolitiy on 09.05.2015.
+ * Created by viacheslavokolitiy on 10.05.2015.
  */
-public class ApplicationInstalledReceiver extends BaseApplicationReceiver {
+public class PackageRemovedReceiver extends BaseApplicationReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        final Intent scanIntent = createApplicationIntent(intent, Constants.INTENT_SCAN_APPS);
-        context.startService(scanIntent);
+        Intent packageRemoveIntent = createApplicationIntent(intent, Constants.INTENT_REMOVE_APP);
+        context.startService(packageRemoveIntent);
     }
 }

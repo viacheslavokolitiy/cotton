@@ -35,6 +35,13 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".core.receiver.PackageRemovedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+
         <provider
             android:name=".db.provider.ScannedApplicationProvider"
             android:authorities="org.satorysoft.cotton"
@@ -45,6 +52,13 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="org.satorysoft.cotton.intent.scan_new_app"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".core.service.DbUpdaterService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.satorysoft.cotton.intent.remove_app"/>
             </intent-filter>
         </service>
     </application>
