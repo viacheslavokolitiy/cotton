@@ -19,11 +19,13 @@ import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.DrawerListAdapter;
 import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
 import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
+import org.satorysoft.cotton.core.event.UpdateApplicationListEvent;
 import org.satorysoft.cotton.core.model.DrawerItem;
 import org.satorysoft.cotton.di.component.DaggerUIViewsComponent;
 import org.satorysoft.cotton.di.component.UIViewsComponent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
 import org.satorysoft.cotton.di.module.UIViewsModule;
+import org.satorysoft.cotton.di.mortar.ApplicationListPresenter;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
 import org.satorysoft.cotton.ui.drawable.DrawerToggle;
@@ -32,6 +34,8 @@ import org.satorysoft.cotton.ui.view.RobotoTextView;
 import org.satorysoft.cotton.util.DaggerService;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -47,7 +51,6 @@ import static org.satorysoft.cotton.util.DaggerService.createComponent;
  * Created by viacheslavokolitiy on 03.04.2015.
  */
 public class ApplicationListActivity extends MortarActivity<ApplicationListComponent> implements View.OnClickListener {
-
     private ArrowDrawable mDrawerArrow;
     private DrawerToggle mActionBarDrawerToggle;
     private ArrayList<DrawerItem> mDrawerItems;
@@ -67,6 +70,7 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_list);
+        EventBus.getDefault().register(this);
         this.uiComponent = DaggerUIViewsComponent.builder().uIViewsModule(new UIViewsModule(this)).build();
         this.materialDialog = uiComponent.getMaterialDialog();
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -176,6 +180,18 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
     private View createCustomDialogView(){
         LayoutInflater inflater = getLayoutInflater();
         return inflater.inflate(R.layout.search_video_dialog_view, null, false);
+    }
+
+    public void onEvent(UpdateApplicationListEvent event){
+        final RecyclerView view = ButterKnife.findById(this, R.id.recycler);
+        if(view != null){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    new ApplicationListPresenter().populateListView(view, getApplicationContext());
+                }
+            });
+        }
     }
 
     @Override
