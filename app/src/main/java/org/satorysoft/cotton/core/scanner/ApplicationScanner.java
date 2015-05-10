@@ -23,6 +23,7 @@ import org.satorysoft.cotton.di.component.DaggerRootComponent;
 import org.satorysoft.cotton.di.component.RootComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.di.module.RootModule;
+import org.satorysoft.cotton.util.ApplicationRiskUtil;
 import org.satorysoft.cotton.util.BooleanPreference;
 import org.satorysoft.cotton.util.DrawableConverter;
 
@@ -73,7 +74,8 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
                 try {
                     PackageInfo permissionsInfo = mPackageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
                     String[] applicationPermissions = permissionsInfo.requestedPermissions;
-                    double applicationRiskRate = (double)evaluateApplicationRisk(applicationPermissions);
+                    double applicationRiskRate = (double)new ApplicationRiskUtil(getDangerousPermissions())
+                            .evaluateApplicationRisk(applicationPermissions);
                     installedApplication.setApplicationName(applicationName);
                     installedApplication.setPackageName(packageName);
                     installedApplication.setApplicationIconBytes(imageRepresentation);
@@ -90,37 +92,6 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
             }
         }
         return scannedApplications;
-    }
-
-    private double evaluateApplicationRisk(String[] applicationPermissions) {
-        if(applicationPermissions == null){
-            applicationPermissions = new String[]{};
-        }
-
-        List<String> dangerousPermissions = getDangerousPermissions();
-        ArrayList<String> foundPermissions = new ArrayList<>();
-        ArrayList<String> safePermissions = new ArrayList<>();
-        for(String permissionName : applicationPermissions){
-            if(dangerousPermissions.contains(permissionName)){
-                foundPermissions.add(permissionName);
-            } else {
-                safePermissions.add(permissionName);
-            }
-        }
-
-        double riskRate;
-
-        if(safePermissions.size() > 0 || foundPermissions.size() > 0){
-            riskRate = (double)safePermissions.size() / (safePermissions.size() + foundPermissions.size());
-            safePermissions.clear();
-            foundPermissions.clear();
-            safePermissions.trimToSize();
-            foundPermissions.trimToSize();
-        } else {
-            riskRate = 0.0;
-        }
-
-        return riskRate;
     }
 
     @Override

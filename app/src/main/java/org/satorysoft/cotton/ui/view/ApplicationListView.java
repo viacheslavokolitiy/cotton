@@ -1,6 +1,7 @@
 package org.satorysoft.cotton.ui.view;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -9,6 +10,7 @@ import android.widget.ListView;
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
 import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
+import org.satorysoft.cotton.core.event.UpdateApplicationListEvent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
 import org.satorysoft.cotton.di.mortar.ApplicationListPresenter;
 import org.satorysoft.cotton.ui.activity.ApplicationListActivity;
