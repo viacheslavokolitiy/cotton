@@ -63,15 +63,15 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
                 .getInstalledApplication()
                 .getApplicationName());
         double risk = scannedApplications.get(position).getInstalledApplication().getApplicationRiskRate();
-        if(risk > 0.5){
+        if(risk > Constants.APPLICATION_MEDIUM_RISK){
             holder.riskIndicator.setBackgroundColor(context.getResources().getColor(R.color.md_red_500));
         }
 
-        if(risk == 0.5){
+        if(risk == Constants.APPLICATION_MEDIUM_RISK){
             holder.riskIndicator.setBackgroundColor(context.getResources().getColor(R.color.md_yellow_500));
         }
 
-        if(risk < 0.5){
+        if(risk < Constants.APPLICATION_MEDIUM_RISK){
             holder.riskIndicator.setBackgroundColor(context.getResources().getColor(R.color.md_light_green_500));
         }
     }

@@ -5,11 +5,12 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import org.satorysoft.cotton.util.TypefaceManager;
+
 /**
  * Created by viacheslavokolitiy on 01.04.2015.
  */
 public class RobotoTextView extends TextView {
-    private Typeface mCustomFontFace;
 
     public RobotoTextView(Context context){
         super(context);
@@ -17,12 +18,6 @@ public class RobotoTextView extends TextView {
 
     public RobotoTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setCustomTypeface("font/RobotoCondensed-Regular.ttf");
-    }
-
-    public void setCustomTypeface(String typefaceName) {
-        assert getContext() != null;
-        mCustomFontFace = Typeface.createFromAsset(getContext().getAssets(), typefaceName);
-        setTypeface(mCustomFontFace);
+        setTypeface(new TypefaceManager(context).createCustomTypeface("font/RobotoCondensed-Regular.ttf"));
     }
 }

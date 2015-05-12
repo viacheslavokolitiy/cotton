@@ -1,22 +1,35 @@
 package org.satorysoft.cotton.ui.view;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.PopulateCardViewEvent;
+import org.satorysoft.cotton.core.model.ScannedApplication;
+import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
+import org.satorysoft.cotton.di.component.CoreComponent;
+import org.satorysoft.cotton.di.component.DaggerCoreComponent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationDetailComponent;
+import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.di.mortar.ApplicationDetailPresenter;
+import org.satorysoft.cotton.ui.view.widget.RobotoButton;
 import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
+import org.satorysoft.cotton.util.Constants;
 import org.satorysoft.cotton.util.DaggerService;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
+import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -33,6 +46,12 @@ public class ApplicationDetailView extends RelativeLayout {
     protected RobotoTextView applicationName;
     @FindView(R.id.recycler_permissions)
     protected RecyclerView recyclerView;
+    @FindView(R.id.btn_trust_application)
+    protected RobotoButton trustButton;
+    @FindView(R.id.btn_delete_application)
+    protected RobotoButton deleteButton;
+    private CoreComponent coreComponent;
+    private PackageManager packageManager;
 
     public ApplicationDetailView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,6 +64,27 @@ public class ApplicationDetailView extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.btn_delete_application)
+    public void onDelete(){
+        Cursor cursor = context.getContentResolver().query(ScannedApplicationContract.CONTENT_URI,
+                null, ScannedApplicationContract.APPLICATION_NAME + "=?",
+                new String[]{applicationName.getText().toString()}, null);
+        String packageName = "";
+        if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()){
+            do {
+                packageName = cursor.getString(cursor.getColumnIndex(ScannedApplicationContract.PACKAGE_NAME));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        if(!TextUtils.isEmpty(packageName)){
+            Intent intent = new Intent(Intent.ACTION_DELETE);
+            intent.setData(Uri.parse("package:" + packageName));
+            context.startActivity(intent);
+        }
     }
 
     @Override
