@@ -66,29 +66,31 @@ public class RecentApplicationScanner extends IntentService {
                         packageManager.getApplicationLabel(recentlyAddedApplicationInfo) : "(unknown)");
 
         DrawableConverter drawableConverter = new DrawableConverter();
-        Drawable applicationIcon = recentlyAddedApplicationInfo.loadIcon(packageManager);
+        if(recentlyAddedApplicationInfo != null){
+            Drawable applicationIcon = recentlyAddedApplicationInfo.loadIcon(packageManager);
 
-        byte[] imageBytes = drawableConverter.convertDrawable(applicationIcon);
+            byte[] imageBytes = drawableConverter.convertDrawable(applicationIcon);
 
-        try {
-            final PackageInfo packageInfo = packageManager.getPackageInfo(formattedPackageName, PackageManager.GET_PERMISSIONS);
+            try {
+                final PackageInfo packageInfo = packageManager.getPackageInfo(formattedPackageName, PackageManager.GET_PERMISSIONS);
 
-            String[] applicationPermissions = packageInfo.requestedPermissions;
+                String[] applicationPermissions = packageInfo.requestedPermissions;
 
-            double applicationRiskRate = (double)new ApplicationRiskUtil(coreComponent.getPermissionList().getHighRiskPermissions())
-                    .evaluateApplicationRisk(applicationPermissions);
+                double applicationRiskRate = (double)new ApplicationRiskUtil(coreComponent.getPermissionList().getHighRiskPermissions())
+                        .evaluateApplicationRisk(applicationPermissions);
 
-            installedApplication = new InstalledApplication();
-            installedApplication.setApplicationName(applicationName);
-            installedApplication.setApplicationPermissions(applicationPermissions);
-            installedApplication.setApplicationRiskRate(applicationRiskRate);
-            installedApplication.setPackageName(packageName);
-            installedApplication.setApplicationIconBytes(imageBytes);
+                installedApplication = new InstalledApplication();
+                installedApplication.setApplicationName(applicationName);
+                installedApplication.setApplicationPermissions(applicationPermissions);
+                installedApplication.setApplicationRiskRate(applicationRiskRate);
+                installedApplication.setPackageName(packageName);
+                installedApplication.setApplicationIconBytes(imageBytes);
 
-            updateApplicationsBase(installedApplication);
+                updateApplicationsBase(installedApplication);
 
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
