@@ -22,12 +22,6 @@ import butterknife.FindView;
  */
 public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAdapter.PermissionListViewHolder> {
     private List<String> permissions = new ArrayList<>();
-    private Context context;
-
-    @Inject
-    public PermissionListAdapter(Context context){
-        this.context = context;
-    }
 
     @Override
     public PermissionListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
