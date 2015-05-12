@@ -69,23 +69,7 @@ public class ApplicationDetailView extends RelativeLayout {
 
     @OnClick(R.id.btn_delete_application)
     public void onDelete(){
-        Cursor cursor = context.getContentResolver().query(ScannedApplicationContract.CONTENT_URI,
-                null, ScannedApplicationContract.APPLICATION_NAME + "=?",
-                new String[]{applicationName.getText().toString()}, null);
-        String packageName = "";
-        if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()){
-            do {
-                packageName = cursor.getString(cursor.getColumnIndex(ScannedApplicationContract.PACKAGE_NAME));
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-
-        if(!TextUtils.isEmpty(packageName)){
-            Intent intent = new Intent(Intent.ACTION_DELETE);
-            intent.setData(Uri.parse("package:" + packageName));
-            context.startActivity(intent);
-        }
+        presenter.deleteApplication(context, applicationName);
     }
 
     @OnClick(R.id.btn_trust_application)
