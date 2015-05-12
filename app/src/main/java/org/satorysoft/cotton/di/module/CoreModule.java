@@ -38,6 +38,6 @@ public class CoreModule {
 
     @Provides
     public PermissionListAdapter providePermissionAdapter(){
-        return new PermissionListAdapter(context);
+        return new PermissionListAdapter();
     }
 }
