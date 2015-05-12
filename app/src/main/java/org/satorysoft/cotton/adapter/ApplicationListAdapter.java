@@ -122,7 +122,9 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
                 permissions = new String[]{};
             }
 
-            cursor.close();
+            if(cursor != null){
+                cursor.close();
+            }
 
             SelectedApplication selectedApplication = new SelectedApplication();
             selectedApplication.setIcon(convertToBytes(drawable));
