@@ -60,7 +60,9 @@ public class ApplicationListPresenter extends ViewPresenter<ApplicationListView>
             } while (cursor.moveToNext());
         }
 
-        cursor.close();
+        if(cursor != null){
+            cursor.close();
+        }
 
         ApplicationListAdapter adapter = mCoreComponent.getAdapter();
 
