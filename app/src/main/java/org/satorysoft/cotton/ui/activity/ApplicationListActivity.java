@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,23 +28,14 @@ import org.satorysoft.cotton.di.mortar.ApplicationListPresenter;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
 import org.satorysoft.cotton.ui.drawable.DrawerToggle;
-import org.satorysoft.cotton.ui.view.FloatingActionButton;
-import org.satorysoft.cotton.ui.view.RobotoTextView;
-import org.satorysoft.cotton.util.DaggerService;
+import org.satorysoft.cotton.ui.view.widget.FloatingActionButton;
+import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 
 import java.util.ArrayList;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import me.drakeet.materialdialog.MaterialDialog;
-import mortar.MortarScope;
-import mortar.bundler.BundleServiceRunner;
-
-import static mortar.MortarScope.buildChild;
-import static mortar.MortarScope.findChild;
-import static org.satorysoft.cotton.util.DaggerService.createComponent;
 
 /**
  * Created by viacheslavokolitiy on 03.04.2015.

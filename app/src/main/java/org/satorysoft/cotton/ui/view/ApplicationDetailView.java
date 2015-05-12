@@ -10,6 +10,7 @@ import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.PopulateCardViewEvent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationDetailComponent;
 import org.satorysoft.cotton.di.mortar.ApplicationDetailPresenter;
+import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 import org.satorysoft.cotton.util.DaggerService;
 
 import javax.inject.Inject;

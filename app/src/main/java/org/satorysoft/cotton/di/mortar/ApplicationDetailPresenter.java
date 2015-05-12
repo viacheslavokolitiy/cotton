@@ -17,7 +17,7 @@ import org.satorysoft.cotton.di.component.DaggerCoreComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.ui.animator.SlideInFromLeftItemAnimator;
 import org.satorysoft.cotton.ui.view.ApplicationDetailView;
-import org.satorysoft.cotton.ui.view.RobotoTextView;
+import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 import org.satorysoft.cotton.util.IDrawableStateManager;
 
 import java.util.Arrays;

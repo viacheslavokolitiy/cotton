@@ -1,6 +1,5 @@
 package org.satorysoft.cotton.core.receiver;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 

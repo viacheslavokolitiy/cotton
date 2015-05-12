@@ -11,17 +11,10 @@ import org.satorysoft.cotton.core.event.PopulateCardViewEvent;
 import org.satorysoft.cotton.core.model.SelectedApplication;
 import org.satorysoft.cotton.di.component.mortar.ApplicationDetailComponent;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
-import org.satorysoft.cotton.ui.view.RobotoTextView;
+import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 import org.satorysoft.cotton.util.Constants;
-import org.satorysoft.cotton.util.DaggerService;
 
 import de.greenrobot.event.EventBus;
-import mortar.MortarScope;
-import mortar.bundler.BundleServiceRunner;
-
-import static mortar.MortarScope.buildChild;
-import static mortar.MortarScope.findChild;
-import static org.satorysoft.cotton.util.DaggerService.createComponent;
 
 /**
  * Created by viacheslavokolitiy on 08.04.2015.

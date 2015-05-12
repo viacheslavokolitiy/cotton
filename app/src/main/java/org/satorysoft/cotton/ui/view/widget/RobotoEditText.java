@@ -1,21 +1,21 @@
-package org.satorysoft.cotton.ui.view;
+package org.satorysoft.cotton.ui.view.widget;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import android.widget.EditText;
 
 /**
- * Created by viacheslavokolitiy on 01.04.2015.
+ * Created by viacheslavokolitiy on 10.04.2015.
  */
-public class RobotoTextView extends TextView {
+public class RobotoEditText extends EditText {
     private Typeface mCustomFontFace;
 
-    public RobotoTextView(Context context){
+    public RobotoEditText(Context context){
         super(context);
     }
 
-    public RobotoTextView(Context context, AttributeSet attrs) {
+    public RobotoEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         setCustomTypeface("font/RobotoCondensed-Regular.ttf");
     }

@@ -20,7 +20,7 @@ import org.satorysoft.cotton.core.model.SelectedApplication;
 import org.satorysoft.cotton.core.scanner.ApplicationScanner;
 import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.ui.activity.ApplicationDetailActivity;
-import org.satorysoft.cotton.ui.view.RobotoTextView;
+import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 import org.satorysoft.cotton.util.Constants;
 import org.satorysoft.cotton.util.IDrawableStateManager;
 
