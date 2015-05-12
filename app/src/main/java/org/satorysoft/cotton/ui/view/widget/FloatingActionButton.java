@@ -1,4 +1,4 @@
-package org.satorysoft.cotton.ui.view;
+package org.satorysoft.cotton.ui.view.widget;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

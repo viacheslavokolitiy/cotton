@@ -1,9 +1,11 @@
 package org.satorysoft.cotton.core.service;
 
 import android.app.IntentService;
+import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Bundle;
 
+import org.satorysoft.cotton.core.event.ApplicationRemovedEvent;
 import org.satorysoft.cotton.core.event.UpdateApplicationListEvent;
 import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.util.Constants;

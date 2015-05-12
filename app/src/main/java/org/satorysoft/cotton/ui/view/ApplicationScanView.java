@@ -9,6 +9,7 @@ import com.github.lzyzsd.circleprogress.ArcProgress;
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.di.component.mortar.ApplicationScanComponent;
 import org.satorysoft.cotton.di.mortar.ApplicationScan;
+import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 import org.satorysoft.cotton.util.DaggerService;
 
 import javax.inject.Inject;
