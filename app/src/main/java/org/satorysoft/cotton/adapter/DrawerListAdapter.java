@@ -37,7 +37,7 @@ public class DrawerListAdapter extends BaseArrayAdapter<DrawerItem> {
         return rowView;
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         @FindView(R.id.text_drawer_item)
         protected RobotoTextView drawerItemTitle;
 
