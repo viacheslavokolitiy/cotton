@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.TextUtils;
@@ -27,7 +25,6 @@ import org.satorysoft.cotton.util.ApplicationRiskUtil;
 import org.satorysoft.cotton.util.BooleanPreference;
 import org.satorysoft.cotton.util.DrawableConverter;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 

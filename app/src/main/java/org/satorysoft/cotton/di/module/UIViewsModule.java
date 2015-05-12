@@ -2,8 +2,6 @@ package org.satorysoft.cotton.di.module;
 
 import android.content.Context;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import me.drakeet.materialdialog.MaterialDialog;

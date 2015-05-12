@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.base.BaseArrayAdapter;
 import org.satorysoft.cotton.core.model.DrawerItem;
-import org.satorysoft.cotton.ui.view.RobotoTextView;
+import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 
 import java.util.ArrayList;
 

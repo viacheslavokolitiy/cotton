@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.satorysoft.cotton.core.event.UpdateApplicationListEvent;
 import org.satorysoft.cotton.core.model.InstalledApplication;

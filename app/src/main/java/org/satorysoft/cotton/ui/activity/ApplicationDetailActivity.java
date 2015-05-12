@@ -1,27 +1,32 @@
 package org.satorysoft.cotton.ui.activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import org.satorysoft.cotton.R;
+import org.satorysoft.cotton.core.event.ApplicationRemovedEvent;
 import org.satorysoft.cotton.core.event.PopulateCardViewEvent;
+import org.satorysoft.cotton.core.model.ScannedApplication;
 import org.satorysoft.cotton.core.model.SelectedApplication;
+import org.satorysoft.cotton.core.receiver.PackageRemovedReceiver;
+import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
 import org.satorysoft.cotton.di.component.mortar.ApplicationDetailComponent;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
-import org.satorysoft.cotton.ui.view.RobotoTextView;
+import org.satorysoft.cotton.ui.view.widget.RobotoButton;
+import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 import org.satorysoft.cotton.util.Constants;
-import org.satorysoft.cotton.util.DaggerService;
+import org.satorysoft.cotton.util.DpUtil;
 
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import mortar.MortarScope;
-import mortar.bundler.BundleServiceRunner;
-
-import static mortar.MortarScope.buildChild;
-import static mortar.MortarScope.findChild;
-import static org.satorysoft.cotton.util.DaggerService.createComponent;
 
 /**
  * Created by viacheslavokolitiy on 08.04.2015.
@@ -51,12 +56,39 @@ public class ApplicationDetailActivity extends MortarActivity<ApplicationDetailC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_detail);
+        EventBus.getDefault().register(this);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         SelectedApplication selectedApplication = (SelectedApplication) intent.getSerializableExtra(Constants.SCANNED_APPLICATION);
         setCustomActionBarTitle(selectedApplication.getTitle());
         EventBus.getDefault().post(new PopulateCardViewEvent(selectedApplication));
+        Cursor cursor = getContentResolver().query(ScannedApplicationContract.CONTENT_URI, null,
+                ScannedApplicationContract.APPLICATION_NAME + "=?", new String[]{selectedApplication.getTitle()}, null);
+        if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()){
+            do {
+                double risk = cursor.getDouble(cursor.getColumnIndex(ScannedApplicationContract.APPLICATION_RISK_RATE));
+                if(risk < Constants.APPLICATION_MEDIUM_RISK){
+                    RobotoButton robotoButton = ButterKnife.findById(this, R.id.btn_trust_application);
+                    robotoButton.setVisibility(View.GONE);
+
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT
+                    );
+
+                    layoutParams.setMargins(0, DpUtil.dpToPx(60), 0, 0);
+                    ButterKnife.findById(this, R.id.btn_delete_application).setLayoutParams(layoutParams);
+                } else {
+                    ButterKnife.findById(this, R.id.btn_trust_application).setVisibility(View.VISIBLE);
+                }
+            } while (cursor.moveToNext());
+        }
+
+        registerReceiver(new PackageRemovedReceiver(), new IntentFilter(Constants.INTENT_REMOVE_APP));
+    }
+
+    public void onEvent(ApplicationRemovedEvent event){
+        finish();
     }
 
     @Override
