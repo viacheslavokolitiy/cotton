@@ -7,14 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.ApplicationRemovedEvent;
 import org.satorysoft.cotton.core.event.PopulateCardViewEvent;
-import org.satorysoft.cotton.core.model.ScannedApplication;
+import org.satorysoft.cotton.core.event.UpdateApplicationListEvent;
 import org.satorysoft.cotton.core.model.SelectedApplication;
 import org.satorysoft.cotton.core.receiver.PackageRemovedReceiver;
 import org.satorysoft.cotton.db.contract.ScannedApplicationContract;
@@ -88,6 +86,10 @@ public class ApplicationDetailActivity extends MortarActivity<ApplicationDetailC
     }
 
     public void onEvent(ApplicationRemovedEvent event){
+        finish();
+    }
+
+    public void onEvent(UpdateApplicationListEvent event){
         finish();
     }
 
