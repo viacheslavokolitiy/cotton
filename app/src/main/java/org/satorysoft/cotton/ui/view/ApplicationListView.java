@@ -3,8 +3,10 @@ package org.satorysoft.cotton.ui.view;
 import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
@@ -23,14 +25,14 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
  */
-public class ApplicationListView extends DrawerLayout {
+public class ApplicationListView extends RelativeLayout {
     @Inject
     ApplicationListPresenter applicationListPresenter;
 
     @FindView(R.id.recycler)
     protected RecyclerView recyclerView;
-    @FindView(R.id.left_drawer)
-    protected ListView leftDrawer;
+    @FindView(R.id.toolbar)
+    protected Toolbar toolbar;
 
     private Context context;
 
@@ -59,12 +61,6 @@ public class ApplicationListView extends DrawerLayout {
         super.onDetachedFromWindow();
         applicationListPresenter.dropView(this);
         EventBus.getDefault().unregister(this);
-    }
-
-    public void onEvent(ApplicationListActivity.PopulateDrawerEvent event){
-        if(event.getAdapter() != null){
-            leftDrawer.setAdapter(event.getAdapter());
-        }
     }
 
     public void onEvent(SortAppsByRiskEvent event){
