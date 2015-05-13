@@ -1,9 +1,13 @@
 package org.satorysoft.cotton.ui.activity;
 
+import android.app.Activity;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,8 +15,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.DrawerListAdapter;
@@ -63,73 +73,44 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
         EventBus.getDefault().register(this);
         this.uiComponent = DaggerUIViewsComponent.builder().uIViewsModule(new UIViewsModule(this)).build();
         this.materialDialog = uiComponent.getMaterialDialog();
+
+        Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        containingView = (DrawerLayout) findViewById(R.id.drawer_view);
-        leftDrawer = (ListView) containingView.findViewById(R.id.left_drawer);
 
-        mDrawerArrow = new ArrowDrawable(this) {
-            @Override
-            public boolean isLayoutRtl() {
-                return false;
-            }
-        };
+        Drawer.Result result = new Drawer()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withActionBarDrawerToggle(true)
+                .withHeader(R.layout.drawer_header)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName("Backup data"),
+                        new PrimaryDrawerItem().withName("Scheduled backup")
+                )
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View view) {
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    }
 
-        mActionBarDrawerToggle = new DrawerToggle(this, containingView,
-                mDrawerArrow, R.string.app_name,
-                R.string.app_name) {
+                    @Override
+                    public void onDrawerClosed(View view) {
 
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                invalidateOptionsMenu();
-            }
+                    }
+                })
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id, IDrawerItem drawerItem) {
+                        Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .build();
 
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu();
-            }
-        };
+        result.setSelection(0);
 
-        containingView.setDrawerListener(mActionBarDrawerToggle);
-        mActionBarDrawerToggle.syncState();
-
-        mDrawerItems = new ArrayList<>();
-        DrawerItem item = new DrawerItem();
-        item.setDrawerItemTitle("TODO");
-        mDrawerItems.add(item);
-
-        DrawerListAdapter adapter = new DrawerListAdapter(this, mDrawerItems);
-        EventBus.getDefault().post(new PopulateDrawerEvent(adapter));
-
-        leftDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                switch (position) {
-                    case 0:
-                        mActionBarDrawerToggle.setAnimateEnabled(true);
-                        containingView.closeDrawer(leftDrawer);
-                        mDrawerArrow.setProgress(1f);
-                        break;
-                }
-
-            }
-        });
-
-        containingView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()){
-                    case MotionEvent.ACTION_MOVE:
-                        if(mDrawerArrow.getProgress() == 1f){
-                            containingView.closeDrawer(leftDrawer);
-                        }
-                        break;
-                }
-
-                return false;
-            }
-        });
 
         setCustomActionBarTitle(getString(R.string.text_action_bar_app_title));
 
@@ -167,14 +148,14 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
         materialDialog.show();
     }
 
-    private View createCustomDialogView(){
+    private View createCustomDialogView() {
         LayoutInflater inflater = getLayoutInflater();
         return inflater.inflate(R.layout.search_video_dialog_view, null, false);
     }
 
-    public void onEvent(UpdateApplicationListEvent event){
+    public void onEvent(UpdateApplicationListEvent event) {
         final RecyclerView view = ButterKnife.findById(this, R.id.recycler);
-        if(view != null){
+        if (view != null) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -204,29 +185,11 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
         //TODO: showSeachDialog();
     }
 
-    public static class PopulateDrawerEvent {
-        private final DrawerListAdapter adapter;
-
-        public PopulateDrawerEvent(DrawerListAdapter adapter) {
-            this.adapter = adapter;
-        }
-
-        public DrawerListAdapter getAdapter() {
-            return adapter;
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (containingView.isDrawerOpen(leftDrawer)) {
-                containingView.closeDrawer(leftDrawer);
-            } else {
-                containingView.openDrawer(leftDrawer);
-            }
-        } else if(item.getItemId() == R.id.action_settings){
+        if (item.getItemId() == R.id.action_settings) {
             EventBus.getDefault().post(new SortAppsByRiskEvent());
-        } else if(item.getItemId() == R.id.action_sort_by_name){
+        } else if (item.getItemId() == R.id.action_sort_by_name) {
             EventBus.getDefault().post(new SortAppsByNameEvent());
         }
 
@@ -244,19 +207,15 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mActionBarDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mActionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        final boolean drawerVisible = containingView.isDrawerVisible(leftDrawer);
-        menu.findItem(R.id.action_settings).setVisible(!drawerVisible);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -266,17 +225,17 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         LayoutInflater inflater = LayoutInflater.from(this);
         View v = inflater.inflate(R.layout.layout_action_bar_title, null);
-        ((RobotoTextView)v.findViewById(R.id.text_custom_action_bar_title)).setText(title);
+        ((RobotoTextView) v.findViewById(R.id.text_custom_action_bar_title)).setText(title);
         getSupportActionBar().setCustomView(v);
     }
 
-    private void  hideActionButtonOnScroll(){
+    private void hideActionButtonOnScroll() {
         RecyclerView view = ButterKnife.findById(this, R.id.recycler);
-        if(view != null){
+        if (view != null) {
             view.setOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    if(newState == MotionEvent.ACTION_UP){
+                    if (newState == MotionEvent.ACTION_UP) {
                         floatingActionButton.setVisibility(View.INVISIBLE);
                     } else {
                         floatingActionButton.setVisibility(View.VISIBLE);
