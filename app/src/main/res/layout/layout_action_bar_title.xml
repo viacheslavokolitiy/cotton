@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <org.satorysoft.cotton.ui.view.widget.RobotoTextView
         android:layout_width="wrap_content"
-        android:textSize="22sp"
+        android:textSize="@dimen/toolbar_text_size"
         android:textColor="@android:color/white"
         android:id="@+id/text_custom_action_bar_title"
         android:layout_height="wrap_content" />
