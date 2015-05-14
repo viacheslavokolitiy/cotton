@@ -9,6 +9,7 @@ public final class Constants {
     public static final String INTENT_SCAN_APPS = "org.satorysoft.cotton.intent.scan_new_app";
     public static final String INTENT_REMOVE_APP = "org.satorysoft.cotton.intent.remove_app";
     public static final double APPLICATION_MEDIUM_RISK = 0.5;
+    public static final String GOOGLE_DRIVE_AUTH_SUCCESS = "drive_auth_success";
 
     private Constants(){}
 }

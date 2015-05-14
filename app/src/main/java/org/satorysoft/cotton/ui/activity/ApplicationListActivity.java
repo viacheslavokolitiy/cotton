@@ -1,9 +1,8 @@
 package org.satorysoft.cotton.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
@@ -18,14 +17,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.satorysoft.cotton.R;
-import org.satorysoft.cotton.adapter.DrawerListAdapter;
 import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
 import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
 import org.satorysoft.cotton.core.event.UpdateApplicationListEvent;
@@ -39,7 +36,6 @@ import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
 import org.satorysoft.cotton.ui.drawable.DrawerToggle;
 import org.satorysoft.cotton.ui.view.widget.FloatingActionButton;
-import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 
 import java.util.ArrayList;
 
@@ -51,6 +47,8 @@ import me.drakeet.materialdialog.MaterialDialog;
  * Created by viacheslavokolitiy on 03.04.2015.
  */
 public class ApplicationListActivity extends MortarActivity<ApplicationListComponent> implements View.OnClickListener {
+    private static final int SCHEDULED_BACKUP = 2;
+    private static final int BACKUP = 1;
     private ArrowDrawable mDrawerArrow;
     private DrawerToggle mActionBarDrawerToggle;
     private ArrayList<DrawerItem> mDrawerItems;
@@ -86,7 +84,8 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
                 .withHeader(R.layout.drawer_header)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Backup data"),
-                        new PrimaryDrawerItem().withName("Scheduled backup")
+                        new PrimaryDrawerItem().withName("Scheduled backup"),
+                        new PrimaryDrawerItem().withName("Restore data")
                 )
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
@@ -104,7 +103,14 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id, IDrawerItem drawerItem) {
-                        Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG).show();
+                        switch (position) {
+                            case BACKUP:
+                                startActivity(new Intent(ApplicationListActivity.this, BackupActivity.class));
+                                break;
+                            case SCHEDULED_BACKUP:
+                                startActivity(new Intent(ApplicationListActivity.this, ScheduledBackupActivity.class));
+                                break;
+                        }
                     }
                 })
                 .build();
@@ -221,12 +227,7 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
 
     @Override
     public void setCustomActionBarTitle(String title) {
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View v = inflater.inflate(R.layout.layout_action_bar_title, null);
-        ((RobotoTextView) v.findViewById(R.id.text_custom_action_bar_title)).setText(title);
-        getSupportActionBar().setCustomView(v);
+        super.setCustomActionBarTitle(title);
     }
 
     private void hideActionButtonOnScroll() {

@@ -17,4 +17,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+    <string name="text_select_gd">Google drive</string>
+    <string name="text_select_dropbox">Dropbox</string>
+    <string name="text_backup_data_toolbar">Backup data</string>
 </resources>

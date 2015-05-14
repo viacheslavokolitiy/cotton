@@ -1,6 +1,5 @@
 package org.satorysoft.cotton.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
