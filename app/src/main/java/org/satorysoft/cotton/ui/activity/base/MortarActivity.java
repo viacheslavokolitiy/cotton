@@ -3,7 +3,11 @@ package org.satorysoft.cotton.ui.activity.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
 
+import org.satorysoft.cotton.R;
+import org.satorysoft.cotton.ui.view.widget.RobotoTextView;
 import org.satorysoft.cotton.util.DaggerService;
 
 import java.lang.reflect.ParameterizedType;
@@ -20,7 +24,14 @@ import static org.satorysoft.cotton.util.DaggerService.createComponent;
  */
 public abstract class MortarActivity<T> extends AppCompatActivity {
     public abstract String getScopeName();
-    public abstract void setCustomActionBarTitle(String title);
+    public void setCustomActionBarTitle(String title){
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View v = inflater.inflate(R.layout.layout_action_bar_title, null);
+        ((RobotoTextView) v.findViewById(R.id.text_custom_action_bar_title)).setText(title);
+        getSupportActionBar().setCustomView(v);
+    }
     private Class<T> mComponentClass;
 
     /**

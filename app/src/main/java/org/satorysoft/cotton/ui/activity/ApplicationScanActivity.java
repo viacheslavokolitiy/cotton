@@ -23,7 +23,6 @@ public class ApplicationScanActivity extends MortarActivity<ApplicationScanCompo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_scan);
-        getSupportActionBar().hide();
         EventBus.getDefault().register(this);
     }
 
