@@ -3,9 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <org.satorysoft.cotton.ui.view.widget.RobotoEditText
-        android:layout_margin="5dp"
-        android:textSize="18sp"
-        android:hint="Application name"
+        android:layout_margin="@dimen/search_field_margin"
+        android:textSize="@dimen/hint_app_name_text_size"
+        android:hint="@string/hint_app_name"
         android:id="@+id/search_by_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />

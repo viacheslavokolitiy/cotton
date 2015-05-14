@@ -20,4 +20,8 @@
     <string name="text_select_gd">Google drive</string>
     <string name="text_select_dropbox">Dropbox</string>
     <string name="text_backup_data_toolbar">Backup data</string>
+    <string name="text_trust_application">Trust this application</string>
+    <string name="text_delete_application">Delete application</string>
+    <string name="text_login_google_drive">Log in using Google Drive</string>
+    <string name="hint_app_name">Application name</string>
 </resources>
