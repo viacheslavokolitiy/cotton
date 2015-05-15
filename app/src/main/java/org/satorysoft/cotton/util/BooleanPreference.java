@@ -28,4 +28,10 @@ public class BooleanPreference {
         editor.putBoolean(key, true);
         editor.commit();
     }
+
+    public void set(String key, boolean isFirstRun){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(key, isFirstRun);
+        editor.commit();
+    }
 }

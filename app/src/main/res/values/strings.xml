@@ -24,4 +24,5 @@
     <string name="text_delete_application">Delete application</string>
     <string name="text_login_google_drive">Log in using Google Drive</string>
     <string name="hint_app_name">Application name</string>
+    <string name="text_backup_photos_label">Photos</string>
 </resources>

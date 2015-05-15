@@ -39,6 +39,7 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.activity.BackupActivity"
+            android:theme="@style/NoActionBarTheme"
             android:screenOrientation="portrait"/>
 
         <receiver android:name=".core.receiver.ApplicationInstalledReceiver">

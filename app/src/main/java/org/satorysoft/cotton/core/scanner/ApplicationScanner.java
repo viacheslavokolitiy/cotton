@@ -104,7 +104,7 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
         mProgress.setProgress(100);
         EventBus.getDefault().post(new CompletedScanEvent());
         BooleanPreference preference = rootComponent.getBooleanPreference();
-        preference.set("firstrun");
+        preference.set("firstrun", false);
     }
 
     private boolean isSystemApplication(ApplicationInfo applicationInfo){

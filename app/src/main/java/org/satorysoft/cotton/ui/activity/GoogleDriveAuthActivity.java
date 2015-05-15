@@ -49,7 +49,7 @@ public class GoogleDriveAuthActivity extends MortarActivity<GoogleDriveAuthCompo
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_backup);
+        setContentView(R.layout.activity_google_drive_auth);
         EventBus.getDefault().register(this);
         this.rootComponent = DaggerRootComponent.builder().rootModule(new RootModule(this)).build();
 
@@ -113,6 +113,8 @@ public class GoogleDriveAuthActivity extends MortarActivity<GoogleDriveAuthCompo
         rootComponent.getBooleanPreference().set(Constants.GOOGLE_DRIVE_AUTH_SUCCESS);
         ButterKnife.findById(this, R.id.btn_google_drive_login).setVisibility(View.GONE);
         setCustomActionBarTitle(getString(R.string.text_backup_data_toolbar));
+        startActivity(new Intent(GoogleDriveAuthActivity.this, BackupActivity.class));
+        finish();
     }
 
     @Override
