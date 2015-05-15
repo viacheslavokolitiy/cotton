@@ -31,11 +31,14 @@
             android:name=".ui.activity.ApplicationDetailActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.activity.BackupActivity"
+        <activity android:name=".ui.activity.GoogleDriveAuthActivity"
             android:theme="@style/NoActionBarTheme"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.activity.ScheduledBackupActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.activity.BackupActivity"
             android:screenOrientation="portrait"/>
 
         <receiver android:name=".core.receiver.ApplicationInstalledReceiver">

@@ -27,15 +27,19 @@ import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
 import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
 import org.satorysoft.cotton.core.event.UpdateApplicationListEvent;
 import org.satorysoft.cotton.core.model.DrawerItem;
+import org.satorysoft.cotton.di.component.DaggerRootComponent;
 import org.satorysoft.cotton.di.component.DaggerUIViewsComponent;
+import org.satorysoft.cotton.di.component.RootComponent;
 import org.satorysoft.cotton.di.component.UIViewsComponent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
+import org.satorysoft.cotton.di.module.RootModule;
 import org.satorysoft.cotton.di.module.UIViewsModule;
 import org.satorysoft.cotton.di.mortar.ApplicationListPresenter;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.ui.drawable.ArrowDrawable;
 import org.satorysoft.cotton.ui.drawable.DrawerToggle;
 import org.satorysoft.cotton.ui.view.widget.FloatingActionButton;
+import org.satorysoft.cotton.util.Constants;
 
 import java.util.ArrayList;
 
@@ -58,6 +62,7 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
     private UIViewsComponent uiComponent;
     private MaterialDialog materialDialog;
     private FloatingActionButton floatingActionButton;
+    private RootComponent rootComponent;
 
     @Override
     public Object getSystemService(String name) {
@@ -71,6 +76,7 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
         EventBus.getDefault().register(this);
         this.uiComponent = DaggerUIViewsComponent.builder().uIViewsModule(new UIViewsModule(this)).build();
         this.materialDialog = uiComponent.getMaterialDialog();
+        this.rootComponent = DaggerRootComponent.builder().rootModule(new RootModule(this)).build();
 
         Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,7 +111,12 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
                                             int position, long id, IDrawerItem drawerItem) {
                         switch (position) {
                             case BACKUP:
-                                startActivity(new Intent(ApplicationListActivity.this, BackupActivity.class));
+                                if (rootComponent.getBooleanPreference().get(Constants.GOOGLE_DRIVE_AUTH_SUCCESS)) {
+                                    startActivity(new Intent(ApplicationListActivity.this, BackupActivity.class));
+                                } else {
+                                    startActivity(new Intent(ApplicationListActivity.this, GoogleDriveAuthActivity.class));
+                                }
+
                                 break;
                             case SCHEDULED_BACKUP:
                                 startActivity(new Intent(ApplicationListActivity.this, ScheduledBackupActivity.class));
