@@ -22,10 +22,11 @@
         android:id="@+id/photos_label"
         android:layout_below="@+id/toolbar_backup_data"
         android:layout_height="wrap_content" />
-    <GridLayout
+    <GridView
         android:id="@+id/photo_grid"
         android:columnCount="5"
         android:layout_below="@+id/photos_label"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+    </GridView>
 </org.satorysoft.cotton.ui.view.BackupView>

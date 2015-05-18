@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 
 import org.satorysoft.cotton.adapter.ApplicationListAdapter;
 import org.satorysoft.cotton.adapter.PermissionListAdapter;
+import org.satorysoft.cotton.adapter.PhotoGridAdapter;
 import org.satorysoft.cotton.core.model.PermissionList;
 import org.satorysoft.cotton.di.module.CoreModule;
 
@@ -18,4 +19,5 @@ public interface CoreComponent {
     PackageManager getPackageManager();
     ApplicationListAdapter getAdapter();
     PermissionListAdapter getPermissionsAdapter();
+    PhotoGridAdapter getPhotoGridAdapter();
 }

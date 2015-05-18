@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 
 import org.satorysoft.cotton.adapter.ApplicationListAdapter;
 import org.satorysoft.cotton.adapter.PermissionListAdapter;
+import org.satorysoft.cotton.adapter.PhotoGridAdapter;
 import org.satorysoft.cotton.core.model.PermissionList;
 
 import dagger.Module;
@@ -39,5 +40,10 @@ public class CoreModule {
     @Provides
     public PermissionListAdapter providePermissionAdapter(){
         return new PermissionListAdapter();
+    }
+
+    @Provides
+    public PhotoGridAdapter providePhotoGridAdapter(){
+        return new PhotoGridAdapter(context);
     }
 }
