@@ -23,6 +23,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.satorysoft.cotton.R;
+import org.satorysoft.cotton.core.event.SelectedApplicationEvent;
 import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
 import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
 import org.satorysoft.cotton.core.event.UpdateApplicationListEvent;
@@ -255,5 +256,10 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
                 }
             });
         }
+    }
+
+    public void onEvent(SelectedApplicationEvent event){
+        Intent selectedIntent = event.getIntent();
+        startActivity(selectedIntent);
     }
 }

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import org.satorysoft.cotton.R;
+import org.satorysoft.cotton.core.event.SelectedApplicationEvent;
 import org.satorysoft.cotton.core.model.ScannedApplication;
 import org.satorysoft.cotton.core.model.SelectedApplication;
 import org.satorysoft.cotton.core.scanner.ApplicationScanner;
@@ -32,6 +33,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by viacheslavokolitiy on 03.04.2015.
@@ -133,7 +135,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
 
             Intent intent = new Intent(context, ApplicationDetailActivity.class);
             intent.putExtra(Constants.SCANNED_APPLICATION, selectedApplication);
-            context.startActivity(intent);
+            EventBus.getDefault().post(new SelectedApplicationEvent(intent));
         }
     }
 

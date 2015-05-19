@@ -3,6 +3,7 @@ package org.satorysoft.cotton.ui.view;
 import android.content.ContentValues;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,6 +48,8 @@ public class ApplicationDetailView extends RelativeLayout {
     protected RobotoButton trustButton;
     @FindView(R.id.btn_delete_application)
     protected RobotoButton deleteButton;
+    @FindView(R.id.toolbar_app_details)
+    protected Toolbar applicationDetailToolbar;
     private UIViewsComponent uiComponent;
     private MaterialDialog materialDialog;
 

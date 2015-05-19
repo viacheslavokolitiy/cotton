@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +56,8 @@ public class ApplicationDetailActivity extends MortarActivity<ApplicationDetailC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_detail);
         EventBus.getDefault().register(this);
+        Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar_app_details);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
