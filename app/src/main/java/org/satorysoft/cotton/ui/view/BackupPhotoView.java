@@ -3,15 +3,12 @@ package org.satorysoft.cotton.ui.view;
 import android.content.Context;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.satorysoft.cotton.R;
-import org.satorysoft.cotton.di.component.mortar.BackupComponent;
+import org.satorysoft.cotton.di.component.mortar.BackupPhotoComponent;
 import org.satorysoft.cotton.di.mortar.BackupPresenter;
 import org.satorysoft.cotton.util.DaggerService;
 
@@ -24,7 +21,7 @@ import butterknife.OnItemClick;
 /**
  * Created by viacheslavokolitiy on 15.05.2015.
  */
-public class BackupView extends RelativeLayout {
+public class BackupPhotoView extends RelativeLayout {
     @Inject
     protected BackupPresenter backupPresenter;
 
@@ -34,13 +31,13 @@ public class BackupView extends RelativeLayout {
     protected GridView photoGrid;
     private Context context;
 
-    public BackupView(Context context, AttributeSet attrs) {
+    public BackupPhotoView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        DaggerService.<BackupComponent>getDaggerComponent(context).inject(this);
+        DaggerService.<BackupPhotoComponent>getDaggerComponent(context).inject(this);
     }
 
-    public BackupView(Context context) {
+    public BackupPhotoView(Context context) {
         super(context);
     }
 
@@ -48,6 +45,7 @@ public class BackupView extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         ButterKnife.bind(this);
+        backupPresenter.loadNewPhotos(context, photoGrid);
     }
 
     @Override

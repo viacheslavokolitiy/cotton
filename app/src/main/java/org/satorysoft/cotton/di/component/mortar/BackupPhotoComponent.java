@@ -1,6 +1,6 @@
 package org.satorysoft.cotton.di.component.mortar;
 
-import org.satorysoft.cotton.ui.view.BackupView;
+import org.satorysoft.cotton.ui.view.BackupPhotoView;
 
 import javax.inject.Singleton;
 
@@ -11,7 +11,7 @@ import dagger.Component;
  */
 @Component
 @Singleton
-public interface BackupComponent extends DaggerMortarComponent<BackupView> {
+public interface BackupPhotoComponent extends DaggerMortarComponent<BackupPhotoView> {
     @Override
-    void inject(BackupView viewForInject);
+    void inject(BackupPhotoView viewForInject);
 }

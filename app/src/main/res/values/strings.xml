@@ -19,10 +19,15 @@
     <string name="action_example">Example action</string>
     <string name="text_select_gd">Google drive</string>
     <string name="text_select_dropbox">Dropbox</string>
-    <string name="text_backup_data_toolbar">Backup data</string>
+    <string name="text_backup_data_toolbar">Backup photo</string>
     <string name="text_trust_application">Trust this application</string>
     <string name="text_delete_application">Delete application</string>
     <string name="text_login_google_drive">Log in using Google Drive</string>
     <string name="hint_app_name">Application name</string>
     <string name="text_backup_photos_label">Photos</string>
+    <string name="text_backup_choise">Backup</string>
+    <string name="text_drawer_backup_photos">Backup photos</string>
+    <string name="text_drawer_backup_call_log">Backup call history</string>
+    <string name="text_drawer_scheduled_backup">Scheduled backup</string>
+    <string name="text_drawer_restore_data">Restore data</string>
 </resources>

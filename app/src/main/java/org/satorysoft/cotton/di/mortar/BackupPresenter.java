@@ -11,7 +11,7 @@ import org.satorysoft.cotton.adapter.PhotoGridAdapter;
 import org.satorysoft.cotton.di.component.CoreComponent;
 import org.satorysoft.cotton.di.component.DaggerCoreComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
-import org.satorysoft.cotton.ui.view.BackupView;
+import org.satorysoft.cotton.ui.view.BackupPhotoView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import mortar.ViewPresenter;
  * Created by viacheslavokolitiy on 15.05.2015.
  */
 @Singleton
-public class BackupPresenter extends ViewPresenter<BackupView> {
+public class BackupPresenter extends ViewPresenter<BackupPhotoView> {
     private CoreComponent coreComponent;
     private PhotoGridAdapter photoAdapter;
 

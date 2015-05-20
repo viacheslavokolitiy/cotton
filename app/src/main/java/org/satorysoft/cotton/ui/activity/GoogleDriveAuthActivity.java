@@ -113,7 +113,7 @@ public class GoogleDriveAuthActivity extends MortarActivity<GoogleDriveAuthCompo
         rootComponent.getBooleanPreference().set(Constants.GOOGLE_DRIVE_AUTH_SUCCESS);
         ButterKnife.findById(this, R.id.btn_google_drive_login).setVisibility(View.GONE);
         setCustomActionBarTitle(getString(R.string.text_backup_data_toolbar));
-        startActivity(new Intent(GoogleDriveAuthActivity.this, BackupActivity.class));
+        startActivity(new Intent(GoogleDriveAuthActivity.this, BackupPhotoActivity.class));
         finish();
     }
 
