@@ -1,14 +1,12 @@
 package org.satorysoft.cotton.ui.activity;
 
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import org.satorysoft.cotton.R;
-import org.satorysoft.cotton.di.component.mortar.BackupComponent;
+import org.satorysoft.cotton.di.component.mortar.BackupPhotoComponent;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 
 import butterknife.ButterKnife;
@@ -16,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by viacheslavokolitiy on 15.05.2015.
  */
-public class BackupActivity extends MortarActivity<BackupComponent> {
+public class BackupPhotoActivity extends MortarActivity<BackupPhotoComponent> {
     @Override
     public String getScopeName() {
         return getClass().getName();
@@ -34,6 +32,8 @@ public class BackupActivity extends MortarActivity<BackupComponent> {
         Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar_backup_data);
         setSupportActionBar(toolbar);
         setCustomActionBarTitle(getString(R.string.text_backup_data_toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -49,5 +49,17 @@ public class BackupActivity extends MortarActivity<BackupComponent> {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

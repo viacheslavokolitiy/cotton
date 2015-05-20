@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,8 +37,10 @@ import de.greenrobot.event.EventBus;
  * Created by viacheslavokolitiy on 03.04.2015.
  */
 public class ApplicationListActivity extends MortarActivity<ApplicationListComponent> {
-    private static final int SCHEDULED_BACKUP = 2;
+    private static final int SCHEDULED_BACKUP = 3;
     private static final int BACKUP = 1;
+    private static final int BACKUP_CALL_LOG = 2;
+    private static final int RESTORE_DATA = 4;
     private MenuInflater mInflater;
     private RootComponent rootComponent;
 
@@ -54,7 +55,6 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
         setContentView(R.layout.activity_application_list);
         EventBus.getDefault().register(this);
         this.rootComponent = DaggerRootComponent.builder().rootModule(new RootModule(this)).build();
-
         Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -66,9 +66,10 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
                 .withActionBarDrawerToggle(true)
                 .withHeader(R.layout.drawer_header)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Backup data"),
-                        new PrimaryDrawerItem().withName("Scheduled backup"),
-                        new PrimaryDrawerItem().withName("Restore data")
+                        new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_photos)),
+                        new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_call_log)),
+                        new PrimaryDrawerItem().withName(getString(R.string.text_drawer_scheduled_backup)),
+                        new PrimaryDrawerItem().withName(getString(R.string.text_drawer_restore_data))
                 )
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
@@ -89,14 +90,17 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
                         switch (position) {
                             case BACKUP:
                                 if (rootComponent.getBooleanPreference().get(Constants.GOOGLE_DRIVE_AUTH_SUCCESS)) {
-                                    startActivity(new Intent(ApplicationListActivity.this, BackupActivity.class));
+                                    startActivity(new Intent(ApplicationListActivity.this, BackupPhotoActivity.class));
                                 } else {
                                     startActivity(new Intent(ApplicationListActivity.this, GoogleDriveAuthActivity.class));
                                 }
-
+                                break;
+                            case BACKUP_CALL_LOG:
                                 break;
                             case SCHEDULED_BACKUP:
                                 startActivity(new Intent(ApplicationListActivity.this, ScheduledBackupActivity.class));
+                                break;
+                            case RESTORE_DATA:
                                 break;
                         }
                     }
@@ -107,11 +111,6 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
 
 
         setCustomActionBarTitle(getString(R.string.text_action_bar_app_title));
-    }
-
-    private View createCustomDialogView() {
-        LayoutInflater inflater = getLayoutInflater();
-        return inflater.inflate(R.layout.search_video_dialog_view, null, false);
     }
 
     public void onEvent(UpdateApplicationListEvent event) {
