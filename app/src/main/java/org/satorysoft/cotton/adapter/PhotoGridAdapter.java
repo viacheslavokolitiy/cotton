@@ -3,14 +3,18 @@ package org.satorysoft.cotton.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import org.satorysoft.cotton.util.Constants;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,14 +64,16 @@ public class PhotoGridAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        Bitmap bm = decodeSampledBitmapFromUri(imageURLs.get(position), Constants.REQUIRED_WIDTH,
-                Constants.REQUIRED_HEIGHT);
+        /*Bitmap bm = decodeSampledBitmapFromUri(imageURLs.get(position), Constants.REQUIRED_WIDTH,
+                Constants.REQUIRED_HEIGHT);*/
 
-        imageView.setImageBitmap(bm);
+        Uri uri = Uri.fromFile(new File(imageURLs.get(position)));
+
+        Picasso.with(context).load(uri).resize(96,96).centerCrop().into(imageView);
         return imageView;
     }
 
-    public Bitmap decodeSampledBitmapFromUri(String path, int reqWidth, int reqHeight) {
+    /*public Bitmap decodeSampledBitmapFromUri(String path, int reqWidth, int reqHeight) {
 
         Bitmap bm = null;
         // First decode with inJustDecodeBounds=true to check dimensions
@@ -102,5 +108,5 @@ public class PhotoGridAdapter extends BaseAdapter {
         }
 
         return inSampleSize;
-    }
+    }*/
 }

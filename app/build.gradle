@@ -49,6 +49,8 @@ dependencies {
     compile('com.mikepenz.materialdrawer:library:0.9.5@aar') {
         transitive = true
     }
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug){
