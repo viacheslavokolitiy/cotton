@@ -19,6 +19,8 @@ public final class Constants {
     public static final int IMAGE_VIEW_PADDING_BOTTOM = 1;
     public static final int REQUIRED_WIDTH = 180;
     public static final int REQUIRED_HEIGHT = 180;
+    public static final int BUFFER_SIZE = 1024;
+    public static final String APPFOLDER_DRIVE_ID = "drive_id";
 
     private Constants(){}
 }

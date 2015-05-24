@@ -2,7 +2,9 @@ package org.satorysoft.cotton.ui.activity;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.MetadataChangeSet;
 
 import org.satorysoft.cotton.R;
@@ -102,6 +105,12 @@ public class GoogleDriveAuthActivity extends MortarActivity<GoogleDriveAuthCompo
                 if (!driveFolderResult.getStatus().isSuccess()) {
                     return;
                 }
+
+                DriveId driveId = driveFolderResult.getDriveFolder().getDriveId();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(Constants.APPFOLDER_DRIVE_ID, driveId.encodeToString());
+                editor.commit();
 
                 EventBus.getDefault().post(new ShowBackupScreenEvent());
             }

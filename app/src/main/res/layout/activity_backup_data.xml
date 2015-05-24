@@ -15,10 +15,17 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         android:minHeight="?attr/actionBarSize"
         android:transitionName="actionBar"/>
+    <org.satorysoft.cotton.ui.view.widget.RobotoButton
+        android:layout_width="fill_parent"
+        android:visibility="gone"
+        android:id="@+id/btn_backup_photos"
+        android:layout_below="@+id/toolbar_backup_data"
+        android:text="@string/text_backup_photos"
+        android:layout_height="wrap_content" />
     <GridView
         android:id="@+id/photo_grid"
         android:columnCount="5"
-        android:layout_below="@+id/toolbar_backup_data"
+        android:layout_below="@+id/btn_backup_photos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </GridView>

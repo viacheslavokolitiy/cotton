@@ -51,18 +51,14 @@ public class PhotoGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {  // if it's not recycled, initialize some attributes
-            imageView = new ImageView(context);
-            imageView.setLayoutParams(new GridView.LayoutParams(Constants.PHOTO_GRID_WIDTH,
-                    Constants.PHOTO_GRID_HEIGHT));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(Constants.IMAGE_VIEW_PADDING_LEFT,
-                    Constants.IMAGE_VIEW_PADDING_TOP,
-                    Constants.IMAGE_VIEW_PADDING_RIGHT,
-                    Constants.IMAGE_VIEW_PADDING_BOTTOM);
-        } else {
-            imageView = (ImageView) convertView;
-        }
+        imageView = new ImageView(context);
+        imageView.setLayoutParams(new GridView.LayoutParams(Constants.PHOTO_GRID_WIDTH,
+                Constants.PHOTO_GRID_HEIGHT));
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setPadding(Constants.IMAGE_VIEW_PADDING_LEFT,
+                Constants.IMAGE_VIEW_PADDING_TOP,
+                Constants.IMAGE_VIEW_PADDING_RIGHT,
+                Constants.IMAGE_VIEW_PADDING_BOTTOM);
 
         Uri uri = Uri.fromFile(new File(imageURLs.get(position)));
 
