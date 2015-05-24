@@ -30,4 +30,7 @@
     <string name="text_drawer_backup_call_log">Backup call history</string>
     <string name="text_drawer_scheduled_backup">Scheduled backup</string>
     <string name="text_drawer_restore_data">Restore data</string>
+    <string name="text_backup_photos">Backup selected photos</string>
+    <string name="text_upload_failed_error">Error while creating the file.</string>
+    <string name="text_app_folder_name">Cotton</string>
 </resources>

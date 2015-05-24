@@ -10,12 +10,14 @@ import android.widget.Toast;
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.di.component.mortar.BackupPhotoComponent;
 import org.satorysoft.cotton.di.mortar.BackupPresenter;
+import org.satorysoft.cotton.ui.view.widget.RobotoButton;
 import org.satorysoft.cotton.util.DaggerService;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.FindView;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 /**
@@ -29,6 +31,8 @@ public class BackupPhotoView extends RelativeLayout {
     protected Toolbar toolbar;
     @FindView(R.id.photo_grid)
     protected GridView photoGrid;
+    @FindView(R.id.btn_backup_photos)
+    protected RobotoButton buttonBackupPhotos;
     private Context context;
 
     public BackupPhotoView(Context context, AttributeSet attrs) {
@@ -53,7 +57,6 @@ public class BackupPhotoView extends RelativeLayout {
         super.onAttachedToWindow();
         backupPresenter.takeView(this);
         photoGrid.setNumColumns(3);
-        backupPresenter.loadNewPhotos(context, photoGrid);
     }
 
     @Override
@@ -65,6 +68,11 @@ public class BackupPhotoView extends RelativeLayout {
 
     @OnItemClick(R.id.photo_grid)
     public void onPhotoGridClick(int position){
-        Toast.makeText(context, Integer.toString(position), Toast.LENGTH_LONG).show();
+        backupPresenter.selectPhotoForBackup(context, photoGrid, position);
+    }
+
+    @OnClick(R.id.btn_backup_photos)
+    public void onBackupClick(){
+        backupPresenter.backupPhotos(context);
     }
 }
