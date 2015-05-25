@@ -41,11 +41,6 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
         notifyItemInserted(0);
     }
 
-    public void removeItem(){
-        permissions.remove(0);
-        notifyItemRemoved(0);
-    }
-
     class PermissionListViewHolder extends RecyclerView.ViewHolder{
         @FindView(R.id.permission_name)
         protected RobotoTextView permissionNameView;

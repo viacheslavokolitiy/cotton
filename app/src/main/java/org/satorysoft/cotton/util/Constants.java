@@ -21,6 +21,12 @@ public final class Constants {
     public static final int REQUIRED_HEIGHT = 180;
     public static final int BUFFER_SIZE = 1024;
     public static final String APPFOLDER_DRIVE_ID = "drive_id";
+    public static final int COMPRESS_QUALITY = 100;
+    public static final int OFFSET = 0;
+    public static final int IMAGE_NEW_WIDTH = 96;
+    public static final int IMAGE_NEW_HEIGHT = 96;
+    public static final int LATCH_COUNT = 1;
+    public static final int SCAN_COMPLETED = 100;
 
     private Constants(){}
 }

@@ -5,7 +5,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.di.component.mortar.BackupPhotoComponent;

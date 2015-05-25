@@ -3,10 +3,7 @@ package org.satorysoft.cotton.core.gdrive;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.drive.Contents;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveContents;
@@ -18,18 +15,15 @@ import com.google.android.gms.drive.MetadataChangeSet;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.FileUploadFailedEvent;
-import org.satorysoft.cotton.core.event.ShowBackupScreenEvent;
 import org.satorysoft.cotton.util.Constants;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.PreferenceChangeEvent;
 
 import de.greenrobot.event.EventBus;
 
@@ -65,16 +59,16 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
             OutputStream outputStream = originalContents.getOutputStream();
 
             try {
-                InputStream dbInputStream = new FileInputStream(fileForUpload);
+                InputStream fileInputStream = new FileInputStream(fileForUpload);
                 byte[] buffer = new byte[Constants.BUFFER_SIZE];
                 int length;
                 int counter = 0;
-                while((length = dbInputStream.read(buffer)) > 0){
+                while((length = fileInputStream.read(buffer)) > 0){
                     ++counter;
                     outputStream.write(buffer, 0, length);
                 }
 
-                dbInputStream.close();
+                fileInputStream.close();
                 outputStream.flush();
                 outputStream.close();
             } catch (IOException e) {

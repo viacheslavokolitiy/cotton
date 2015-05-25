@@ -1,8 +1,6 @@
 package org.satorysoft.cotton.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +38,13 @@ public class PhotoGridAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
-        return imageURLs.get(i);
+    public Object getItem(int position) {
+        return imageURLs.get(position);
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int itemID) {
+        return itemID;
     }
 
     @Override
@@ -62,7 +60,11 @@ public class PhotoGridAdapter extends BaseAdapter {
 
         Uri uri = Uri.fromFile(new File(imageURLs.get(position)));
 
-        Picasso.with(context).load(uri).resize(96,96).centerCrop().into(imageView);
+        Picasso.with(context)
+                .load(uri)
+                .resize(Constants.IMAGE_NEW_WIDTH, Constants.IMAGE_NEW_HEIGHT)
+                .centerCrop()
+                .into(imageView);
         return imageView;
     }
 }

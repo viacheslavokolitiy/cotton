@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
+import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.CompletedScanEvent;
 import org.satorysoft.cotton.core.model.InstalledApplication;
 import org.satorysoft.cotton.core.model.ScannedApplication;
@@ -23,6 +24,7 @@ import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.di.module.RootModule;
 import org.satorysoft.cotton.util.ApplicationRiskUtil;
 import org.satorysoft.cotton.util.BooleanPreference;
+import org.satorysoft.cotton.util.Constants;
 import org.satorysoft.cotton.util.DrawableConverter;
 
 import java.util.ArrayList;
@@ -101,10 +103,10 @@ public class ApplicationScanner extends AsyncTask<Void, Integer, List<ScannedApp
     protected void onPostExecute(List<ScannedApplication> scannedApplications) {
         super.onPostExecute(scannedApplications);
         saveScanResultToDatabase(scannedApplications);
-        mProgress.setProgress(100);
+        mProgress.setProgress(Constants.SCAN_COMPLETED);
         EventBus.getDefault().post(new CompletedScanEvent());
         BooleanPreference preference = rootComponent.getBooleanPreference();
-        preference.set("firstrun", false);
+        preference.set(mContext.getString(R.string.text_first_run), false);
     }
 
     private boolean isSystemApplication(ApplicationInfo applicationInfo){

@@ -9,6 +9,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.satorysoft.cotton.di.component.DaggerGoogleDriveComponent;
 import org.satorysoft.cotton.di.module.GoogleDriveModule;
+import org.satorysoft.cotton.util.Constants;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -30,7 +31,7 @@ public abstract class APIAsyncTask<Params, Progress, Result>
 
     @Override
     protected Result doInBackground(Params... params) {
-        final CountDownLatch latch = new CountDownLatch(1);
+        final CountDownLatch latch = new CountDownLatch(Constants.LATCH_COUNT);
         mApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
             @Override
             public void onConnected(Bundle bundle) {

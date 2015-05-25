@@ -88,11 +88,6 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         notifyItemInserted(0);
     }
 
-    public void removeItem(){
-        scannedApplications.remove(0);
-        notifyItemRemoved(0);
-    }
-
     class AppListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @FindView(R.id.application_icon)
         protected ImageView applicationLogo;
@@ -142,12 +137,12 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     @Override public byte[] convertToBytes(Drawable drawable) {
         Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, Constants.COMPRESS_QUALITY, stream);
         return stream.toByteArray();
     }
 
     @SuppressWarnings("deprecation")
     @Override public Drawable restoreDrawable(byte[] bytes){
-        return new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+        return new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, Constants.OFFSET, bytes.length));
     }
 }

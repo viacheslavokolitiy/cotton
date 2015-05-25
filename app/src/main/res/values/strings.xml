@@ -33,4 +33,5 @@
     <string name="text_backup_photos">Backup selected photos</string>
     <string name="text_upload_failed_error">Error while creating the file.</string>
     <string name="text_app_folder_name">Cotton</string>
+    <string name="text_first_run">firstrun</string>
 </resources>

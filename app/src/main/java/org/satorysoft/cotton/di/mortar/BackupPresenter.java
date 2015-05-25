@@ -7,9 +7,6 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.widget.GridView;
 
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.DriveApi;
-
 import org.satorysoft.cotton.adapter.PhotoGridAdapter;
 import org.satorysoft.cotton.core.event.DeclineBackupEvent;
 import org.satorysoft.cotton.core.event.InitiateBackupEvent;
