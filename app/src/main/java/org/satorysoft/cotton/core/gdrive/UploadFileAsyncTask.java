@@ -15,6 +15,7 @@ import com.google.android.gms.drive.MetadataChangeSet;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.FileUploadFailedEvent;
+import org.satorysoft.cotton.core.event.UploadSuccessfulEvent;
 import org.satorysoft.cotton.util.Constants;
 
 import java.io.File;
@@ -110,6 +111,8 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
 
         if (metadataList != null && metadataList.size() == 0){
             EventBus.getDefault().post(new FileUploadFailedEvent(context.getString(R.string.text_upload_failed_error)));
+        } else {
+            EventBus.getDefault().post(new UploadSuccessfulEvent(context.getString(R.string.text_upload_success)));
         }
     }
 }

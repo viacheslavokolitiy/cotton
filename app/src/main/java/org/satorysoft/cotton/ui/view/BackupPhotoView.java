@@ -30,8 +30,6 @@ public class BackupPhotoView extends RelativeLayout {
     protected Toolbar toolbar;
     @FindView(R.id.photo_grid)
     protected GridView photoGrid;
-    @FindView(R.id.btn_backup_photos)
-    protected RobotoButton buttonBackupPhotos;
     private Context context;
 
     public BackupPhotoView(Context context, AttributeSet attrs) {
@@ -68,10 +66,5 @@ public class BackupPhotoView extends RelativeLayout {
     @OnItemClick(R.id.photo_grid)
     public void onPhotoGridClick(int position){
         backupPresenter.selectPhotoForBackup(context, photoGrid, position);
-    }
-
-    @OnClick(R.id.btn_backup_photos)
-    public void onBackupClick(){
-        backupPresenter.backupPhotos(context);
     }
 }

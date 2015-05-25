@@ -8,8 +8,9 @@ import android.provider.MediaStore;
 import android.widget.GridView;
 
 import org.satorysoft.cotton.adapter.PhotoGridAdapter;
-import org.satorysoft.cotton.core.event.DeclineBackupEvent;
-import org.satorysoft.cotton.core.event.InitiateBackupEvent;
+import org.satorysoft.cotton.core.event.ActionModeDestroyedEvent;
+import org.satorysoft.cotton.core.event.BackupPhotoEvent;
+import org.satorysoft.cotton.core.event.ShowActionModeEvent;
 import org.satorysoft.cotton.core.gdrive.UploadFileAsyncTask;
 import org.satorysoft.cotton.di.component.CoreComponent;
 import org.satorysoft.cotton.di.component.DaggerCoreComponent;
@@ -35,10 +36,12 @@ public class BackupPresenter extends ViewPresenter<BackupPhotoView> {
     private final ArrayList<String> selectedImages;
     private CoreComponent coreComponent;
     private PhotoGridAdapter photoAdapter;
+    private boolean needShowActionMode = true;
 
     @Inject
     public BackupPresenter(){
         selectedImages = new ArrayList<>();
+        EventBus.getDefault().register(this);
     }
 
     public void loadNewPhotos(final Context context, GridView photoGrid) {
@@ -98,27 +101,33 @@ public class BackupPresenter extends ViewPresenter<BackupPhotoView> {
         String imageURL = getImageURLS(context).get(position);
         if(!selectedImages.contains(imageURL)){
             selectedImages.add(imageURL);
+            photoAdapter.addSelection(position, true);
         } else {
             selectedImages.remove(imageURL);
+            photoAdapter.removeSelection(position);
             selectedImages.trimToSize();
         }
 
-        highlightSelectedImage(photoGrid, position);
-
-        if(selectedImages.size() > EMPTY_LIST_SIZE){
-            EventBus.getDefault().post(new InitiateBackupEvent(selectedImages));
-        } else {
-            EventBus.getDefault().post(new DeclineBackupEvent());
+        if(needShowActionMode){
+            EventBus.getDefault().post(new ShowActionModeEvent());
+            needShowActionMode = false;
         }
-    }
-
-    private void highlightSelectedImage(GridView photoGrid, int position) {
-        //TODO: Implement CAB pattern
     }
 
     public void backupPhotos(Context context) {
         if(selectedImages.size() > 0){
             new UploadFileAsyncTask(context, selectedImages).execute();
         }
+    }
+
+    public void onEvent(ActionModeDestroyedEvent event){
+        photoAdapter.clearSelection();
+        needShowActionMode = true;
+        selectedImages.clear();
+        selectedImages.trimToSize();
+    }
+
+    public void onEvent(BackupPhotoEvent event){
+        backupPhotos(event.getContext());
     }
 }

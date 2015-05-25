@@ -1,6 +1,8 @@
 package org.satorysoft.cotton.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,16 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.util.Constants;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by viacheslavokolitiy on 18.05.2015.
@@ -23,6 +30,7 @@ public class PhotoGridAdapter extends BaseAdapter {
     private final Context context;
     private List<String> imageURLs = new ArrayList<>();
     private ImageView imageView;
+    private Map<Integer, Boolean> selection = new HashMap<>();
 
     public PhotoGridAdapter(Context context){
         this.context = context;
@@ -37,9 +45,24 @@ public class PhotoGridAdapter extends BaseAdapter {
         return imageURLs.size();
     }
 
+    public void addSelection(int position, boolean value){
+        selection.put(position, value);
+        notifyDataSetChanged();
+    }
+
+    public void removeSelection(int position){
+        selection.remove(position);
+        notifyDataSetChanged();
+    }
+
     @Override
     public Object getItem(int position) {
         return imageURLs.get(position);
+    }
+
+    public void clearSelection() {
+        selection.clear();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -65,6 +88,14 @@ public class PhotoGridAdapter extends BaseAdapter {
                 .resize(Constants.IMAGE_NEW_WIDTH, Constants.IMAGE_NEW_HEIGHT)
                 .centerCrop()
                 .into(imageView);
+
+        if(selection.get(position) != null){
+            imageView.getDrawable()
+                    .setColorFilter(
+                            context.getResources().getColor(R.color.md_light_blue_500), PorterDuff.Mode.MULTIPLY
+                    );
+        }
+
         return imageView;
     }
 }

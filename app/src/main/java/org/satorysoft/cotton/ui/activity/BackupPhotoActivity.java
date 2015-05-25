@@ -5,13 +5,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.satorysoft.cotton.R;
-import org.satorysoft.cotton.core.event.DeclineBackupEvent;
-import org.satorysoft.cotton.core.event.InitiateBackupEvent;
+import org.satorysoft.cotton.core.event.ActionModeDestroyedEvent;
+import org.satorysoft.cotton.core.event.ShowActionModeEvent;
+import org.satorysoft.cotton.core.event.UploadSuccessfulEvent;
 import org.satorysoft.cotton.di.component.mortar.BackupPhotoComponent;
+import org.satorysoft.cotton.ui.SelectPhotoCallback;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
-import org.satorysoft.cotton.ui.view.widget.RobotoButton;
 
 import java.util.List;
 
@@ -72,14 +74,15 @@ public class BackupPhotoActivity extends MortarActivity<BackupPhotoComponent> {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onEvent(InitiateBackupEvent event){
-        this.selectedPhotos = event.getSelectedImages();
-        final RobotoButton backupPhotoButton = ButterKnife.findById(this, R.id.btn_backup_photos);
-        backupPhotoButton.setVisibility(View.VISIBLE);
+    public void onEvent(ShowActionModeEvent actionModeEvent){
+        startSupportActionMode(new SelectPhotoCallback(this));
     }
 
-    public void onEvent(DeclineBackupEvent event){
-        final RobotoButton backupPhotoButton = ButterKnife.findById(this, R.id.btn_backup_photos);
-        backupPhotoButton.setVisibility(View.GONE);
+    public void onEvent(ActionModeDestroyedEvent event){
+        ButterKnife.findById(this, R.id.btn_backup_photos).setVisibility(View.GONE);
+    }
+
+    public void onEvent(UploadSuccessfulEvent event){
+        Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
