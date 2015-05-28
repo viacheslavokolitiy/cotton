@@ -1,7 +1,9 @@
 package org.satorysoft.cotton.core.gdrive;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 
 import com.google.android.gms.drive.Drive;
@@ -34,12 +36,22 @@ import de.greenrobot.event.EventBus;
 public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadata>> {
     private final ArrayList<String> images;
     private final Context context;
+    private ProgressDialog dialog;
 
     public UploadFileAsyncTask(Context context, ArrayList<String> images) {
         super(context);
         this.context = context;
         this.images = images;
 
+    }
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.setMessage(context.getString(R.string.text_backing_up_photos_progress));
+        dialog.show();
     }
 
     @Override
@@ -108,6 +120,10 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
     @Override
     protected void onPostExecute(List<Metadata> metadataList) {
         super.onPostExecute(metadataList);
+
+        if(dialog != null){
+            dialog.dismiss();
+        }
 
         if (metadataList != null && metadataList.size() == 0){
             EventBus.getDefault().post(new FileUploadFailedEvent(context.getString(R.string.text_upload_failed_error)));
