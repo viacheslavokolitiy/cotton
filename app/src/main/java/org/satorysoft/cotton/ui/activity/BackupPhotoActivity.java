@@ -78,10 +78,6 @@ public class BackupPhotoActivity extends MortarActivity<BackupPhotoComponent> {
         startSupportActionMode(new SelectPhotoCallback(this));
     }
 
-    public void onEvent(ActionModeDestroyedEvent event){
-        ButterKnife.findById(this, R.id.btn_backup_photos).setVisibility(View.GONE);
-    }
-
     public void onEvent(UploadSuccessfulEvent event){
         Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_SHORT).show();
     }
