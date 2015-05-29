@@ -7,15 +7,18 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.widget.GridView;
 
+import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.adapter.PhotoGridAdapter;
 import org.satorysoft.cotton.core.event.ActionModeDestroyedEvent;
 import org.satorysoft.cotton.core.event.BackupPhotoEvent;
+import org.satorysoft.cotton.core.event.NoInternetConnectionEvent;
 import org.satorysoft.cotton.core.event.ShowActionModeEvent;
 import org.satorysoft.cotton.core.gdrive.UploadFileAsyncTask;
 import org.satorysoft.cotton.di.component.CoreComponent;
 import org.satorysoft.cotton.di.component.DaggerCoreComponent;
 import org.satorysoft.cotton.di.module.CoreModule;
 import org.satorysoft.cotton.ui.view.BackupPhotoView;
+import org.satorysoft.cotton.util.NetworkUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -116,7 +119,11 @@ public class BackupPresenter extends ViewPresenter<BackupPhotoView> {
 
     public void backupPhotos(Context context) {
         if(selectedImages.size() > 0){
-            new UploadFileAsyncTask(context, selectedImages).execute();
+            if(NetworkUtil.isNetworkOnline(context)){
+                new UploadFileAsyncTask(context, selectedImages).execute();
+            } else {
+                EventBus.getDefault().post(new NoInternetConnectionEvent(context.getString(R.string.text_no_inet_conn)));
+            }
         }
     }
 

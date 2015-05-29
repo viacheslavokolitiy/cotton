@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.ActionModeDestroyedEvent;
+import org.satorysoft.cotton.core.event.NoInternetConnectionEvent;
 import org.satorysoft.cotton.core.event.ShowActionModeEvent;
 import org.satorysoft.cotton.core.event.UploadSuccessfulEvent;
 import org.satorysoft.cotton.di.component.mortar.BackupPhotoComponent;
@@ -79,6 +80,10 @@ public class BackupPhotoActivity extends MortarActivity<BackupPhotoComponent> {
     }
 
     public void onEvent(UploadSuccessfulEvent event){
+        Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void onEvent(NoInternetConnectionEvent event){
         Toast.makeText(getBaseContext(), event.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
