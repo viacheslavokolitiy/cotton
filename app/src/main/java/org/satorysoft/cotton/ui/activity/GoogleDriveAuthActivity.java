@@ -14,9 +14,14 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.ShowBackupScreenEvent;
@@ -26,6 +31,8 @@ import org.satorysoft.cotton.di.component.mortar.GoogleDriveAuthComponent;
 import org.satorysoft.cotton.di.module.RootModule;
 import org.satorysoft.cotton.ui.activity.base.MortarActivity;
 import org.satorysoft.cotton.util.Constants;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -38,6 +45,8 @@ public class GoogleDriveAuthActivity extends MortarActivity<GoogleDriveAuthCompo
     private static final int RESOLVE_CONNECTION_REQUEST_CODE = 1500;
     private GoogleApiClient mGoogleAPIClient;
     private RootComponent rootComponent;
+    private ArrayList<String> appFolders = new ArrayList<>();
+    private ArrayList<DriveId> appIds = new ArrayList<>();
 
     @Override
     public String getScopeName() {
@@ -96,25 +105,54 @@ public class GoogleDriveAuthActivity extends MortarActivity<GoogleDriveAuthCompo
 
     @Override
     public void onConnected(Bundle bundle) {
-        MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                .setTitle(getString(R.string.text_gdrive_app_folder_name)).build();
-        Drive.DriveApi.getRootFolder(mGoogleAPIClient).createFolder(
-                mGoogleAPIClient, changeSet).setResultCallback(new ResultCallback<DriveFolder.DriveFolderResult>() {
-            @Override
-            public void onResult(DriveFolder.DriveFolderResult driveFolderResult) {
-                if (!driveFolderResult.getStatus().isSuccess()) {
-                    return;
-                }
+        Drive.DriveApi.requestSync(mGoogleAPIClient);
+        Query query = new Query.Builder()
+                .addFilter(Filters.eq(SearchableField.MIME_TYPE, "application/vnd.google-apps.folder")).build();
+        Drive.DriveApi.getRootFolder(mGoogleAPIClient)
+                .queryChildren(mGoogleAPIClient, query)
+                .setResultCallback(new ResultCallback<DriveApi.MetadataBufferResult>() {
+                    @Override
+                    public void onResult(DriveApi.MetadataBufferResult result) {
+                        for (Metadata metadatas : result.getMetadataBuffer()) {
+                            if(!metadatas.isTrashed()) {
+                                String title = metadatas.getTitle();
+                                if (title.equals("CottonData")) {
+                                    appFolders.add(title);
+                                    appIds.add(metadatas.getDriveId());
+                                }
+                            }
+                        }
 
-                DriveId driveId = driveFolderResult.getDriveFolder().getDriveId();
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(Constants.APPFOLDER_DRIVE_ID, driveId.encodeToString());
-                editor.commit();
+                        if(appFolders.size() == 0){
+                            MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                                    .setTitle("CottonData").build();
+                            Drive.DriveApi.getRootFolder(mGoogleAPIClient).createFolder(
+                                    mGoogleAPIClient, changeSet).setResultCallback(new ResultCallback<DriveFolder.DriveFolderResult>() {
+                                @Override
+                                public void onResult(DriveFolder.DriveFolderResult driveFolderResult) {
+                                    if (!driveFolderResult.getStatus().isSuccess()) {
+                                        return;
+                                    }
 
-                EventBus.getDefault().post(new ShowBackupScreenEvent());
-            }
-        });
+                                    DriveId driveId = driveFolderResult.getDriveFolder().getDriveId();
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString(Constants.APPFOLDER_DRIVE_ID, driveId.encodeToString());
+                                    editor.commit();
+
+                                    EventBus.getDefault().post(new ShowBackupScreenEvent());
+                                }
+                            });
+                        } else {
+                            DriveId appFolderId = appIds.get(0);
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString(Constants.APPFOLDER_DRIVE_ID, appFolderId.encodeToString());
+                            editor.commit();
+                            EventBus.getDefault().post(new ShowBackupScreenEvent());
+                        }
+                    }
+                });
 
     }
 
