@@ -2,10 +2,12 @@ package org.satorysoft.cotton.core.gdrive;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveContents;
@@ -37,6 +39,7 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
     private final ArrayList<String> images;
     private final Context context;
     private ProgressDialog dialog;
+    private DriveFolder photoFolder;
 
     public UploadFileAsyncTask(Context context, ArrayList<String> images) {
         super(context);
@@ -57,6 +60,17 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
     @Override
     protected List<Metadata> doInBackgroundConnected(String[] params) {
         final List<Metadata> fileMetadataList = new ArrayList<>();
+
+        String encodedPhotoFolderId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PHOTO_FOLDER_ID, null);
+        String encodedDriveId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.APPFOLDER_DRIVE_ID, null);
+
+        //no photo folder created yet
+        if(TextUtils.isEmpty(encodedPhotoFolderId)){
+            DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
+            photoFolder = createPhotoFolder(appFolder);
+        } else {
+            photoFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedPhotoFolderId));
+        }
 
         for(String imageURL : images){
             DriveApi.DriveContentsResult contentsResult = Drive.DriveApi
@@ -92,10 +106,9 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
                     .setTitle(fileForUpload.getName())
                     .setMimeType("image/jpg").build();
 
-            String encodedDriveId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.APPFOLDER_DRIVE_ID, null);
             if(!TextUtils.isEmpty(encodedDriveId)) {
-                DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
-                DriveFolder.DriveFileResult fileResult = appFolder.createFile(
+
+                DriveFolder.DriveFileResult fileResult = photoFolder.createFile(
                         getGoogleApiClient(), originalMetadata, originalContents).await();
 
                 if (!fileResult.getStatus().isSuccess()) {
@@ -115,6 +128,29 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
         }
 
         return fileMetadataList;
+    }
+
+    private DriveFolder createPhotoFolder(DriveFolder appFolder){
+        MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                .setTitle(context.getString(R.string.text_photo_folder_name)).build();
+        appFolder.createFolder(getGoogleApiClient(), changeSet).setResultCallback(new ResultCallback<DriveFolder.DriveFolderResult>() {
+            @Override
+            public void onResult(DriveFolder.DriveFolderResult driveFolderResult) {
+                if(!driveFolderResult.getStatus().isSuccess()){
+                    return;
+                }
+
+                DriveId driveId = driveFolderResult.getDriveFolder().getDriveId();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(Constants.PHOTO_FOLDER_ID, driveId.encodeToString());
+                editor.commit();
+
+                photoFolder = driveFolderResult.getDriveFolder();
+            }
+        });
+
+        return photoFolder;
     }
 
     @Override
