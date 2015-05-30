@@ -94,14 +94,18 @@ public class ApplicationListPresenter extends ViewPresenter<ApplicationListView>
             });
         }
 
-        for (ScannedApplication scannedApplication : scannedApplicationList) {
-            adapter.addItem(scannedApplication);
-        }
+
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new SlideInFromLeftItemAnimator(recyclerView));
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        for (ScannedApplication scannedApplication : scannedApplicationList) {
+            adapter.addItem(scannedApplication);
+        }
+
         recyclerView.setAdapter(adapter);
     }
 
