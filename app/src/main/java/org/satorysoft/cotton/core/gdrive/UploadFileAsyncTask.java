@@ -96,12 +96,6 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
         } else {
             photoFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedPhotoFolderId));
         }
-        /*if(TextUtils.isEmpty(encodedPhotoFolderId)){
-            DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
-            photoFolder = createPhotoFolder(appFolder);
-        } else {
-            photoFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedPhotoFolderId));
-        }*/
 
         for(String imageURL : images){
             DriveApi.DriveContentsResult contentsResult = Drive.DriveApi
