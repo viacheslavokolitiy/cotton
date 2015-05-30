@@ -16,6 +16,9 @@ import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.DriveResource;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
 
 import org.satorysoft.cotton.R;
 import org.satorysoft.cotton.core.event.FileUploadFailedEvent;
@@ -40,6 +43,7 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
     private final Context context;
     private ProgressDialog dialog;
     private DriveFolder photoFolder;
+    private ArrayList<DriveFolder> photoFolderIds = new ArrayList<>();
 
     public UploadFileAsyncTask(Context context, ArrayList<String> images) {
         super(context);
@@ -62,15 +66,42 @@ public class UploadFileAsyncTask extends APIAsyncTask<String, Void, List<Metadat
         final List<Metadata> fileMetadataList = new ArrayList<>();
 
         String encodedPhotoFolderId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PHOTO_FOLDER_ID, null);
-        String encodedDriveId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.APPFOLDER_DRIVE_ID, null);
+        final String encodedDriveId = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.APPFOLDER_DRIVE_ID, null);
 
         //no photo folder created yet
         if(TextUtils.isEmpty(encodedPhotoFolderId)){
+            Query query = new Query.Builder()
+                    .addFilter(Filters.eq(SearchableField.MIME_TYPE, "application/vnd.google-apps.folder")).build();
+            Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId))
+                    .queryChildren(getGoogleApiClient(), query)
+                    .setResultCallback(new ResultCallback<DriveApi.MetadataBufferResult>() {
+                        @Override
+                        public void onResult(DriveApi.MetadataBufferResult result) {
+                            for (Metadata metadata : result.getMetadataBuffer()){
+                                if(!metadata.isTrashed()){
+                                    String title = metadata.getTitle();
+                                    if(title.equals(context.getString(R.string.text_photo_folder_name))){
+                                        photoFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), metadata.getDriveId());
+                                        photoFolderIds.add(photoFolder);
+                                    }
+                                }
+                            }
+
+                            if(photoFolderIds.size() == 0){
+                                DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
+                                photoFolder = createPhotoFolder(appFolder);
+                            }
+                        }
+                    });
+        } else {
+            photoFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedPhotoFolderId));
+        }
+        /*if(TextUtils.isEmpty(encodedPhotoFolderId)){
             DriveFolder appFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedDriveId));
             photoFolder = createPhotoFolder(appFolder);
         } else {
             photoFolder = Drive.DriveApi.getFolder(getGoogleApiClient(), DriveId.decodeFromString(encodedPhotoFolderId));
-        }
+        }*/
 
         for(String imageURL : images){
             DriveApi.DriveContentsResult contentsResult = Drive.DriveApi
