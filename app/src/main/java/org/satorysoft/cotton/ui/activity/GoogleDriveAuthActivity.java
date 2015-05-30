@@ -97,7 +97,7 @@ public class GoogleDriveAuthActivity extends MortarActivity<GoogleDriveAuthCompo
     @Override
     public void onConnected(Bundle bundle) {
         MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                .setTitle("Cotton").build();
+                .setTitle(getString(R.string.text_gdrive_app_folder_name)).build();
         Drive.DriveApi.getRootFolder(mGoogleAPIClient).createFolder(
                 mGoogleAPIClient, changeSet).setResultCallback(new ResultCallback<DriveFolder.DriveFolderResult>() {
             @Override

@@ -37,4 +37,6 @@
     <string name="text_upload_success">Photo uploaded successfully</string>
     <string name="text_backing_up_photos_progress">Backing up photos to Google Drive... Please wait...</string>
     <string name="text_no_inet_conn">No internet connection, please check your internet connection and try again</string>
+    <string name="text_gdrive_app_folder_name">Cotton</string>
+    <string name="text_photo_folder_name">Photos</string>
 </resources>
