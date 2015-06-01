@@ -22,6 +22,7 @@ import org.satorysoft.cotton.core.event.SelectedApplicationEvent;
 import org.satorysoft.cotton.core.event.SortAppsByNameEvent;
 import org.satorysoft.cotton.core.event.SortAppsByRiskEvent;
 import org.satorysoft.cotton.core.event.UpdateApplicationListEvent;
+import org.satorysoft.cotton.core.gdrive.CallLogUploaderTask;
 import org.satorysoft.cotton.di.component.DaggerRootComponent;
 import org.satorysoft.cotton.di.component.RootComponent;
 import org.satorysoft.cotton.di.component.mortar.ApplicationListComponent;
@@ -96,6 +97,9 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
                                 }
                                 break;
                             case BACKUP_CALL_LOG:
+                                if (rootComponent.getBooleanPreference().get(Constants.GOOGLE_DRIVE_AUTH_SUCCESS)) {
+                                    initiateCallHistoryBackup();
+                                }
                                 break;
                             case SCHEDULED_BACKUP:
                                 startActivity(new Intent(ApplicationListActivity.this, ScheduledBackupActivity.class));
@@ -111,6 +115,10 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
 
 
         setCustomActionBarTitle(getString(R.string.text_action_bar_app_title));
+    }
+
+    private void initiateCallHistoryBackup() {
+        new CallLogUploaderTask(this).execute();
     }
 
     public void onEvent(UpdateApplicationListEvent event) {

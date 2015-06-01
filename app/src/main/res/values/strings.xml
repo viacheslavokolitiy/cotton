@@ -39,4 +39,7 @@
     <string name="text_no_inet_conn">No internet connection, please check your internet connection and try again</string>
     <string name="text_gdrive_app_folder_name">Cotton</string>
     <string name="text_photo_folder_name">Photos</string>
+    <string name="text_upload_calls">Uploading call log to Google Drive... Please wait...</string>
+    <string name="text_backup_call_log_name">Call history</string>
+    <string name="text_call_log_folder_name">Call log</string>
 </resources>
