@@ -42,7 +42,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.0-SNAPSHOT'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-    compile 'com.squareup.flow:flow:0.10'
     compile 'com.squareup.mortar:mortar:0.17'
     compile 'com.github.provigen:ProviGen-lib:2.0.+'
     compile 'me.drakeet.materialdialog:library:1.2.2'
