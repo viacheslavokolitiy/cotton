@@ -42,7 +42,8 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.activity.ScheduledBackupActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarTheme"/>
 
         <activity android:name=".ui.activity.BackupPhotoActivity"
             android:theme="@style/NoActionBarTheme"

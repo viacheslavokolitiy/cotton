@@ -42,4 +42,5 @@
     <string name="text_upload_calls">Uploading call log to Google Drive... Please wait...</string>
     <string name="text_backup_call_log_name">Call history</string>
     <string name="text_call_log_folder_name">Call log</string>
+    <string name="text_scheduled_backup_toolbar">Scheduled backup</string>
 </resources>
