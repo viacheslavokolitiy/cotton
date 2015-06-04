@@ -15,4 +15,65 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         android:minHeight="?attr/actionBarSize"
         android:transitionName="actionBar"/>
+    <org.satorysoft.cotton.ui.view.widget.RobotoTextView
+        android:id="@+id/text_select_scheduled_backup_category"
+        android:textSize="18sp"
+        android:layout_below="@+id/toolbar_scheduled_backup"
+        android:text="@string/text_scheduled_backup_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
+    <org.satorysoft.cotton.ui.view.widget.RobotoTextView
+        android:id="@+id/text_photos_scheduled_backup"
+        android:textSize="18sp"
+        android:layout_below="@id/text_select_scheduled_backup_category"
+        android:text="@string/text_scheduled_backup_photo_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="22dp"/>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/text_select_scheduled_backup_category"
+        android:layout_marginTop="17dp"
+        android:id="@+id/checkbox_select_photo"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content" />
+    <org.satorysoft.cotton.ui.view.widget.RobotoTextView
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:text="@string/text_call_history_label"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/text_photos_scheduled_backup"
+        android:layout_height="wrap_content"/>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/checkbox_select_photo"
+        android:layout_marginTop="5dp"
+        android:id="@+id/checkbox_select_call_log"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content" />
+    <org.satorysoft.cotton.ui.view.widget.RobotoTextView
+        android:layout_width="wrap_content"
+        android:id="@+id/txt_scheduled_backup_date"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Thursday, 8:22 PM"
+        android:textSize="18sp"
+        android:layout_height="wrap_content" />
+    <org.satorysoft.cotton.ui.view.widget.RobotoTextView
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:id="@+id/txt_setup_scheduled_backup"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:text="@string/text_setup_scheduled_backup"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content" />
 </org.satorysoft.cotton.ui.view.ScheduledBackupView>

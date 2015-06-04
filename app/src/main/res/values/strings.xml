@@ -43,4 +43,8 @@
     <string name="text_backup_call_log_name">Call history</string>
     <string name="text_call_log_folder_name">Call log</string>
     <string name="text_scheduled_backup_toolbar">Scheduled backup</string>
+    <string name="text_scheduled_backup_label">Select data for scheduled backup</string>
+    <string name="text_scheduled_backup_photo_category">Photos</string>
+    <string name="text_call_history_label">Call history</string>
+    <string name="text_setup_scheduled_backup">Set up scheduled backup</string>
 </resources>
