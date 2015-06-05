@@ -47,4 +47,6 @@
     <string name="text_scheduled_backup_photo_category">Photos</string>
     <string name="text_call_history_label">Call history</string>
     <string name="text_setup_scheduled_backup">Set up scheduled backup</string>
+    <string name="text_toast_setup_scheduled_backup_error">You have to select at least one category for scheduled backup. Please, try again</string>
+    <string name="text_btn_done">Done</string>
 </resources>
