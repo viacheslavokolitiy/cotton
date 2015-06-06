@@ -38,10 +38,9 @@ import de.greenrobot.event.EventBus;
  * Created by viacheslavokolitiy on 03.04.2015.
  */
 public class ApplicationListActivity extends MortarActivity<ApplicationListComponent> {
-    private static final int SCHEDULED_BACKUP = 3;
     private static final int BACKUP = 1;
     private static final int BACKUP_CALL_LOG = 2;
-    private static final int RESTORE_DATA = 4;
+    private static final int RESTORE_DATA = 3;
     private MenuInflater mInflater;
     private RootComponent rootComponent;
 
@@ -69,7 +68,6 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_photos)),
                         new PrimaryDrawerItem().withName(getString(R.string.text_drawer_backup_call_log)),
-                        new PrimaryDrawerItem().withName(getString(R.string.text_drawer_scheduled_backup)),
                         new PrimaryDrawerItem().withName(getString(R.string.text_drawer_restore_data))
                 )
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
@@ -100,9 +98,6 @@ public class ApplicationListActivity extends MortarActivity<ApplicationListCompo
                                 if (rootComponent.getBooleanPreference().get(Constants.GOOGLE_DRIVE_AUTH_SUCCESS)) {
                                     initiateCallHistoryBackup();
                                 }
-                                break;
-                            case SCHEDULED_BACKUP:
-                                startActivity(new Intent(ApplicationListActivity.this, ScheduledBackupActivity.class));
                                 break;
                             case RESTORE_DATA:
                                 break;
